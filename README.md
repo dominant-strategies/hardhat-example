@@ -1,6 +1,6 @@
 ## hardhat-example
 
-hardhat-example provides a simple smart contract deployment framework using the Hardhat development kit on Quai Network.
+`hardhat-example` provides a simple smart contract deployment framework using the Hardhat development kit on Quai Network.
 
 This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a sample script that deploys that contract.
 
@@ -19,15 +19,13 @@ This project demonstrates a basic Hardhat use case. It comes with a sample contr
     * `@nomiclabs/hardhat-waffle`
     * `dotenv`
 
-## Prerequisites
+### Prerequisites
 
 * An instance of a Quai Network Full Node and Manager
 
-### Executing program
+### Using Hardhat
 
-Hardhat has a number of useful CLI commands. 
-
-Try running some of the following tasks:
+Hardhat has a number of useful CLI commands.  Try running some of the following tasks:
 
 ```shell
 npx hardhat accounts
@@ -41,11 +39,4 @@ npx hardhat help
 
 ## Authors
 
-Contributors names and contact info
-
 [Juuddi](https://github.com/Juuddi)
-
-## Version History
-
-* 0.1
-    * Initial Release
