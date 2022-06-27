@@ -1,0 +1,27 @@
+{
+  "name": "hardhat-example",
+  "version": "1.0.0",
+  "description": "A simple example repository for deploying a smart contract to any Quai Network Chain",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo Nothing to test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/spruce-solutions/hardhat-example.git"
+  },
+  "author": "Judi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/spruce-solutions/hardhat-example/issues"
+  },
+  "homepage": "https://github.com/spruce-solutions/hardhat-example#readme",
+  "dependencies": {
+    "@nomiclabs/hardhat-ethers": "^2.0.6",
+    "@nomiclabs/hardhat-waffle": "^2.0.3",
+    "dotenv": "^16.0.1"
+  },
+  "devDependencies": {
+    "hardhat": "^2.9.9"
+  }
+}
