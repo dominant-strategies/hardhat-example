@@ -4,5 +4,5 @@ node_modules
 cache
 artifacts
 
-#Env files, change to process.env once you have cloned the repo 
-.env
+#Env files
+process.env

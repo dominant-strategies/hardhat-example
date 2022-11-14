@@ -7,7 +7,7 @@ This project demonstrates a basic Hardhat use case. It comes with a sample contr
 ## Getting Started
 
 * Set your default network inside the `hardhat.config.js` file.
-* Define the `PRIVATE_KEY` and `RPC_URL` variables inside of `process.env`.
+* Define the `PRIVATE_KEY`, `RPC_URL`, and `ROPSTEN_URL` variables inside of `process.env` file.
 * In the `.gitignore` file, change `.env` to `process.env` to hide your private key and deployment endpoint.
 
 ### Dependencies
