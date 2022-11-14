@@ -22,6 +22,7 @@
     "dotenv": "^16.0.1"
   },
   "devDependencies": {
+    "chai": "^4.3.7",
     "hardhat": "^2.9.9"
   }
 }
