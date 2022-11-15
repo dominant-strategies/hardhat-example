@@ -42,6 +42,14 @@ node scripts/deploy.js
 npx hardhat help
 ```
 
+### 
+
+Running this project:
+
+`npm install`
+`npx hardhat compile`
+`
+
 ## Authors
 
 [Juuddi](https://github.com/Juuddi)
