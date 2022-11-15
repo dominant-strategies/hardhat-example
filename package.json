@@ -19,7 +19,11 @@
   "dependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.6",
     "@nomiclabs/hardhat-waffle": "^2.0.3",
-    "dotenv": "^16.0.1"
+    "@quais/address": "file:../quais.js/packages/address",
+    "@quais/contracts": "file:../quais.js/packages/contracts",
+    "dotenv": "^16.0.1",
+    "ethers": "^5.7.2",
+    "quais": "^0.1.8"
   },
   "devDependencies": {
     "chai": "^4.3.7",
