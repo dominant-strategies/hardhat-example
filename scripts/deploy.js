@@ -11,12 +11,11 @@ async function main() {
   const walletWithProvider = new quais.Wallet(hre.config.networks.ropsten.accounts[0], provider);
   await provider.ready;
 
-
   // const contractBytes = await grindContractAddress(nonce, "zone-0-0", walletWithProvider.address, Greeter);
   const myContract = new quais.ContractFactory(Greeter.interface, Greeter.bytecode, walletWithProvider);
   
   // // If your contract requires constructor args, you can specify them here
-  const greeter = await myContract.deploy("hello", { gasLimit: 99999 });
+  const greeter = await myContract.deploy("hello");
 
   await greeter.deployed();
   console.log("Greeter deployed to:", greeter.address);
