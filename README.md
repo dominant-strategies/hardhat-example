@@ -6,11 +6,15 @@ This project demonstrates a basic Hardhat use case. It comes with a sample contr
 
 ## Getting Started
 
-* Define network variables inside of a new `process.env` file.
-    * The local HTTP port for each chain's `ROPSTEN_URL` can be found [here](https://docs.quai.network/develop/installation).
-    * The `RPC_URL` can be either a local (similar to above) or remote node endpoint.
+* Copy `.env.dist` to `.env`.
+```
+$ cp .env.dist .env
+```
+* Define network variables inside of the `.env` file.
+    * The local HTTP port for each chain's `LOCAL_URL` can be found [here](https://docs.quai.network/develop/installation).
+    * The `GARDER_URL` and `COLOSSEUM_URL` can be either a local (similar to above) or remote node endpoint.
     * `PRIVATE_KEY` is the private key of the account you wish to deploy from.
-* Set your default network inside the `hardhat.config.js` file.
+* Set your default network inside the `hardhat.config.js` file. This will configure the deployment network in the `scripts/deploy.js` file.
 * Replace `Greeter.sol` with your own contract.
 * Update `scripts/deploy.js` with your contract(s) info.
 * Replace `test/test.js` with your own tests.
@@ -20,8 +24,9 @@ This project demonstrates a basic Hardhat use case. It comes with a sample contr
 * [Hardhat](https://hardhat.org/) Development Toolkit 
 * [nodejs](https://nodejs.org/en/)
 * npm packages
-    * `@nomiclabs/hardhat-ethers`
-    * `@nomiclabs/hardhat-waffle`
+    * `@nomicfoundation/hardhat-toolbox`
+    * `@quais`
+    * `ethers`
     * `dotenv`
 
 ### Prerequisites
