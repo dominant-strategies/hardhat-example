@@ -23,7 +23,7 @@ async function main() {
   );
 
   // // If your contract requires constructor args, you can specify them here
-  const greeter = await myContract.deploy("Sup bitches we deployed a Quai Contract");
+  const greeter = await myContract.deploy("Contract deployed.");
 
   await greeter.deployed();
   console.log("Greeter deployed to:", greeter.address);
