@@ -7,10 +7,10 @@ async function main() {
 
   // //to create 'signer' object;here 'account'
   const provider = new quais.providers.JsonRpcProvider(
-    hre.config.networks.quai.url
+    hre.config.networks.local.url
   );
   const walletWithProvider = new quais.Wallet(
-    hre.config.networks.quai.accounts[0],
+    hre.config.networks.local.accounts[0],
     provider
   );
   await provider.ready;

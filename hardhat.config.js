@@ -8,7 +8,7 @@ dotenv.config({ path: "process.env" });
 const { LOCAL_URL, GARDEN_URL, COLOSSEUM_URL, PRIVATE_KEY } = process.env;
 
 module.exports = {
-  defaultNetwork: "quai",
+  defaultNetwork: "local",
   networks: {
     local: {
       url: LOCAL_URL,
