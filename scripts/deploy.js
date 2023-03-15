@@ -7,10 +7,10 @@ async function main() {
 
   // //to create 'signer' object;here 'account'
   const provider = new quais.providers.JsonRpcProvider(
-    hre.config.networks.local.url
+    hre.config.networks[hre.config.defaultNetwork].url
   );
   const walletWithProvider = new quais.Wallet(
-    hre.config.networks.local.accounts[0],
+    hre.config.networks[hre.config.defaultNetwork].accounts[0],
     provider
   );
   await provider.ready;
@@ -23,7 +23,9 @@ async function main() {
   );
 
   // // If your contract requires constructor args, you can specify them here
-  const greeter = await myContract.deploy("Contract deployed.");
+  const greeter = await myContract.deploy("Contract deployed.", {
+    gasLimit: 2000000,
+  });
 
   await greeter.deployed();
   console.log("Greeter deployed to:", greeter.address);

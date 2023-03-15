@@ -4,7 +4,7 @@
 
 require("@nomicfoundation/hardhat-toolbox");
 const dotenv = require("dotenv");
-dotenv.config({ path: "process.env" });
+dotenv.config({ path: ".env" });
 const { LOCAL_URL, GARDEN_URL, COLOSSEUM_URL, PRIVATE_KEY } = process.env;
 
 module.exports = {
