@@ -4,6 +4,7 @@
 
 require("@nomiclabs/hardhat-ethers");
 require("@nomiclabs/hardhat-waffle");
+require('@openzeppelin/hardhat-upgrades');
 const dotenv = require("dotenv");
 dotenv.config({ path: "process.env" });
 const { RPC_URL, PRIVATE_KEY, ROPSTEN_URL } = process.env; // import private key and RPC URLs from a process.env file
@@ -25,7 +26,7 @@ module.exports = {
   solidity: {
     compilers: [
       {
-        version: "0.8.0",
+        version: "0.8.1",
       },
     ],
   },

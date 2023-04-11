@@ -8,22 +8,24 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/spruce-solutions/hardhat-example.git"
+    "url": "git+https://github.com/dominant-strategies/hardhat-example.git"
   },
   "author": "Judi",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/spruce-solutions/hardhat-example/issues"
+    "url": "https://github.com/dominant-strategies/hardhat-example/issues"
   },
-  "homepage": "https://github.com/spruce-solutions/hardhat-example#readme",
+  "homepage": "https://github.com/dominant-strategies/hardhat-example#readme",
   "dependencies": {
     "@nomiclabs/hardhat-ethers": "^2.0.6",
     "@nomiclabs/hardhat-waffle": "^2.0.3",
+    "@openzeppelin/contracts": "^4.8.1",
     "dotenv": "^16.0.1",
     "ethers": "^5.7.2",
     "quais": "^0.1.9"
   },
   "devDependencies": {
+    "@openzeppelin/hardhat-upgrades": "^1.22.1",
     "chai": "^4.3.7",
     "hardhat": "^2.9.9"
   }

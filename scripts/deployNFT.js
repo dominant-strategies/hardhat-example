@@ -1,10 +1,12 @@
 const quais = require("quais");
 const hre = require("hardhat");
 
+// TODO
+// This script is unfinished.
 
 async function main() {
-  const Greeter = await hre.ethers.getContractFactory("Greeter");
-  console.log("Deploying Greeter...")
+  const NFT = await hre.ethers.getContractFactory("MyNFT");
+  console.log("Deploying NFT...")
 
   // //to create 'signer' object;here 'account'
   const provider = new quais.providers.JsonRpcProvider(hre.config.networks.ropsten.url);
@@ -12,12 +14,12 @@ async function main() {
   await provider.ready;
 
   // const contractBytes = await grindContractAddress(nonce, "zone-0-0", walletWithProvider.address, Greeter);
-  const myContract = new quais.ContractFactory(Greeter.interface, Greeter.bytecode, walletWithProvider);
+  const myContract = new quais.ContractFactory(NFT.interface, NFT.bytecode, walletWithProvider);
   
   // // If your contract requires constructor args, you can specify them here
-  const greeter = await myContract.deploy("hello", { gasLimit: 200000 });
+  const nft = await myContract.deploy({ gasLimit: 500000 });
 
-  await greeter.deployed();
+  await nft.deployed();
   console.log("Greeter deployed to:", greeter.address);
 }
 
