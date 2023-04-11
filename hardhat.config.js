@@ -13,15 +13,10 @@ const { LOCAL_URL, GARDEN_URL, COLOSSEUM_URL, PRIVATE_KEY } = process.env;
 module.exports = {
   defaultNetwork: "local",
   networks: {
-    // ropsten is a locally ran testnet of all 13 of the quai network blockchains.
-    ropsten: {
-      url: ROPSTEN_URL,
-      accounts: [PRIVATE_KEY],
-      chainId: 1337, // Ropsten chainId
     local: {
       url: LOCAL_URL,
       accounts: [PRIVATE_KEY],
-      chainId: 9000,
+      chainId: 1337,
       websocket: true,
       gas: 2000000,
     },

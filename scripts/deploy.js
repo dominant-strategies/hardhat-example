@@ -4,20 +4,6 @@ const hre = require("hardhat");
 
 async function main() {
   const Greeter = await hre.ethers.getContractFactory("Greeter");
-<<<<<<< HEAD
-  console.log("Deploying Greeter...")
-
-  // //to create 'signer' object;here 'account'
-  const provider = new quais.providers.JsonRpcProvider(hre.config.networks.ropsten.url);
-  const walletWithProvider = new quais.Wallet(hre.config.networks.ropsten.accounts[0], provider);
-  await provider.ready;
-
-  // const contractBytes = await grindContractAddress(nonce, "zone-0-0", walletWithProvider.address, Greeter);
-  const myContract = new quais.ContractFactory(Greeter.interface, Greeter.bytecode, walletWithProvider);
-  
-  // // If your contract requires constructor args, you can specify them here
-  const greeter = await myContract.deploy("hello", { gasLimit: 200000 });
-=======
   console.log("Deploying Greeter...");
 
   // //to create 'signer' object;here 'account'
@@ -38,10 +24,7 @@ async function main() {
   );
 
   // // If your contract requires constructor args, you can specify them here
-  const greeter = await myContract.deploy("Contract deployed.", {
-    gasLimit: 2000000,
-  });
->>>>>>> main
+  const greeter = await myContract.deploy("Contract deployed.");
 
   await greeter.deployed();
   console.log("Greeter deployed to:", greeter.address);
