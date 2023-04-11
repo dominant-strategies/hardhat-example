@@ -6,3 +6,5 @@ artifacts
 
 #Env files
 .env
+
+process.env

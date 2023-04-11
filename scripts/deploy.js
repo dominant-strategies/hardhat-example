@@ -1,6 +1,7 @@
 const quais = require("quais");
 const hre = require("hardhat");
 
+
 async function main() {
   const Greeter = await hre.ethers.getContractFactory("Greeter");
   console.log("Deploying Greeter...");
@@ -23,9 +24,7 @@ async function main() {
   );
 
   // // If your contract requires constructor args, you can specify them here
-  const greeter = await myContract.deploy("Contract deployed.", {
-    gasLimit: 2000000,
-  });
+  const greeter = await myContract.deploy("Contract deployed.");
 
   await greeter.deployed();
   console.log("Greeter deployed to:", greeter.address);

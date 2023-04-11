@@ -2,6 +2,9 @@
  * @type import('hardhat/config').HardhatUserConfig
  */
 
+require("@nomiclabs/hardhat-ethers");
+require("@nomiclabs/hardhat-waffle");
+require('@openzeppelin/hardhat-upgrades');
 require("@nomicfoundation/hardhat-toolbox");
 const dotenv = require("dotenv");
 dotenv.config({ path: ".env" });
@@ -13,7 +16,7 @@ module.exports = {
     local: {
       url: LOCAL_URL,
       accounts: [PRIVATE_KEY],
-      chainId: 9000,
+      chainId: 1337,
       websocket: true,
       gas: 2000000,
     },
@@ -37,7 +40,7 @@ module.exports = {
   solidity: {
     compilers: [
       {
-        version: "0.8.0",
+        version: "0.8.1",
       },
     ],
   },
