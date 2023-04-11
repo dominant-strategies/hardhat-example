@@ -5,20 +5,39 @@
 require("@nomiclabs/hardhat-ethers");
 require("@nomiclabs/hardhat-waffle");
 require('@openzeppelin/hardhat-upgrades');
+require("@nomicfoundation/hardhat-toolbox");
 const dotenv = require("dotenv");
-dotenv.config({ path: "process.env" });
-const { RPC_URL, PRIVATE_KEY, ROPSTEN_URL } = process.env; // import private key and RPC URLs from a process.env file
+dotenv.config({ path: ".env" });
+const { LOCAL_URL, GARDEN_URL, COLOSSEUM_URL, PRIVATE_KEY } = process.env;
 
 module.exports = {
-  defaultNetwork: "ropsten",
+  defaultNetwork: "local",
   networks: {
     // ropsten is a locally ran testnet of all 13 of the quai network blockchains.
     ropsten: {
       url: ROPSTEN_URL,
       accounts: [PRIVATE_KEY],
       chainId: 1337, // Ropsten chainId
+    local: {
+      url: LOCAL_URL,
+      accounts: [PRIVATE_KEY],
+      chainId: 9000,
       websocket: true,
-      gas: 2000000, // gas limit used for deploys. This is an arbitrary value, accurate gas estimates must be obtained for deployments.
+      gas: 2000000,
+    },
+    garden: {
+      url: GARDEN_URL,
+      accounts: [PRIVATE_KEY],
+      chainId: 12000,
+      websocket: true,
+      gas: 2000000,
+    },
+    colosseum: {
+      url: COLOSSEUM_URL,
+      accounts: [PRIVATE_KEY],
+      chainId: 9000,
+      websocket: true,
+      gas: 2000000,
     },
   },
 
