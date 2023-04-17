@@ -19,7 +19,7 @@ const accounts = [
 ];
 
 module.exports = {
-  defaultChain: "Hydra2",
+  defaultChain: "Cyprus1",
   addressData: {
     adresses: accounts,
     addressIndex: {
