@@ -3,37 +3,39 @@
  */
 
 require("@nomiclabs/hardhat-ethers");
-require("@nomiclabs/hardhat-waffle");
-require('@openzeppelin/hardhat-upgrades');
+require("@openzeppelin/hardhat-upgrades");
 require("@nomicfoundation/hardhat-toolbox");
-const dotenv = require("dotenv");
-dotenv.config({ path: ".env" });
-const { LOCAL_URL, GARDEN_URL, COLOSSEUM_URL, PRIVATE_KEY } = process.env;
+const deployConfig = require("./rpc.js");
 
 module.exports = {
   defaultNetwork: "local",
+  chainConfig: {
+    defaultChain: deployConfig.defaultChain,
+    addressConfig:
+      deployConfig.addressData.addressIndex[deployConfig.defaultChain],
+  },
   networks: {
     local: {
-      url: LOCAL_URL,
-      accounts: [PRIVATE_KEY],
+      url: deployConfig.urlObject.local[deployConfig.defaultChain],
+      accounts: deployConfig.addressData.adresses,
       chainId: 1337,
       websocket: true,
       gas: 2000000,
     },
-    garden: {
-      url: GARDEN_URL,
-      accounts: [PRIVATE_KEY],
-      chainId: 12000,
-      websocket: true,
-      gas: 2000000,
-    },
-    colosseum: {
-      url: COLOSSEUM_URL,
-      accounts: [PRIVATE_KEY],
-      chainId: 9000,
-      websocket: true,
-      gas: 2000000,
-    },
+    // garden: {
+    //   url: GARDEN_URL,
+    //   accounts: [PRIVATE_KEY],
+    //   chainId: 12000,
+    //   websocket: true,
+    //   gas: 2000000,
+    // },
+    // colosseum: {
+    //   url: COLOSSEUM_URL,
+    //   accounts: [PRIVATE_KEY],
+    //   chainId: 9000,
+    //   websocket: true,
+    //   gas: 2000000,
+    // },
   },
 
   // include compiler version defined in your smart contract
@@ -41,6 +43,9 @@ module.exports = {
     compilers: [
       {
         version: "0.8.1",
+      },
+      {
+        version: "0.8.17",
       },
     ],
   },

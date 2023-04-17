@@ -21,8 +21,10 @@
     "@nomiclabs/hardhat-ethers": "^2.0.6",
     "@nomiclabs/hardhat-waffle": "^2.0.3",
     "@openzeppelin/contracts": "^4.8.1",
+    "child_process": "^1.0.2",
     "dotenv": "^16.0.1",
     "ethers": "^5.7.0",
+    "fs": "^0.0.1-security",
     "quais": "^0.1.9"
   },
   "devDependencies": {
