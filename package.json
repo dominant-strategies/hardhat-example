@@ -22,8 +22,7 @@
     "@nomiclabs/hardhat-waffle": "^2.0.3",
     "@openzeppelin/contracts": "^4.8.1",
     "dotenv": "^16.0.1",
-    "ethers": "^5.7.0",
-    "quais": "^0.1.9"
+    "quais": "^0.2.0"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-chai-matchers": "^1.0.6",
