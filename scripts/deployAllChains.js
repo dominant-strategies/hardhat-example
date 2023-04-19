@@ -1,56 +1,48 @@
-const fs = require("fs");
-const { exec } = require("child_process");
+const { spawn } = require('child_process');
 
 // Define the different chains you want to deploy to
 const chains = [
-  "Cyprus1",
-  "Cyprus2",
-  "Cyprus3",
-  "Paxos1",
-  "Paxos2",
-  "Paxos3",
-  "Hydra1",
-  "Hydra2",
-  "Hydra3",
+	'cyprus1',
+	'cyprus2',
+	'cyprus3',
+	'paxos1',
+	'paxos2',
+	'paxos3',
+	'hydra1',
+	'hydra2',
+	'hydra3',
 ];
 
-// Path to your rpc.js file
-const rpcFile = "./rpc.js";
+function deployToChain(chain) {
+	return new Promise((resolve, reject) => {
+		const deployProcess = spawn('npx', ['hardhat', 'run', '--network', chain, 'scripts/deploy.js']);
 
-// Function to update the rpc.js file with the new chain
-function updateRpcFile(chain) {
-  // Read the original rpc.js content
-  const rpcContent = fs.readFileSync(rpcFile, "utf-8");
+		deployProcess.stdout.on('data', (data) => {
+			console.log(`[${chain}] ${data}`);
+		});
 
-  // Replace the defaultChain value
-  const updatedRpcContent = rpcContent.replace(
-    /defaultChain:\s*["'].*["']/,
-    `defaultChain: "${chain}"`
-  );
+		deployProcess.stderr.on('data', (data) => {
+			console.error(`[${chain}] ${data}`);
+		});
 
-  // Write the updated content back to rpc.js
-  fs.writeFileSync(rpcFile, updatedRpcContent);
-}
-
-// Function to deploy using your deploy.js script
-function deployContract() {
-  return new Promise((resolve, reject) => {
-    exec("node scripts/deploy.js", (error, stdout) => {
-      if (error) {
-        console.error(`exec error: ${error}`);
-        reject(error);
-      }
-      console.log(`${stdout}`);
-      resolve();
-    });
-  });
+		deployProcess.on('close', (code) => {
+			if (code === 0) {
+				resolve();
+			} else {
+				reject(new Error(`Deploy process exited with code ${code}`));
+			}
+		});
+	});
 }
 
 (async () => {
-  for (const chain of chains) {
-    console.log("=====================================");
-    console.log(`Deploying to: ${chain}`);
-    updateRpcFile(chain);
-    await deployContract();
-  }
+	for (const chain of chains) {
+		console.log(`------ Deploying to ${chain} ------`);
+		try {
+			await deployToChain(chain);
+			console.log(`------ Successfully deployed to ${chain} ------`);
+		} catch (error) {
+			console.error(`------ Failed to deploy to ${chain}: ${error.message} ------`);
+		}
+	}
 })();

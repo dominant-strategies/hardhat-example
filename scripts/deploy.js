@@ -1,36 +1,28 @@
-const quais = require("quais");
-const hre = require("hardhat");
+const quais = require('quais');
+const hre = require('hardhat');
 
 async function main() {
-  const Greeter = await hre.ethers.getContractFactory("Greeter");
+	const ethersContract = await hre.ethers.getContractFactory('Greeter');
+	const quaisProvider = new quais.providers.JsonRpcProvider(hre.network.config.url);
 
-  const provider = new quais.providers.JsonRpcProvider(
-    hre.config.networks[hre.config.defaultNetwork].url
-  );
+	const walletWithProvider = new quais.Wallet(hre.network.config.accounts[0], quaisProvider);
+	await quaisProvider.ready;
 
-  const walletWithProvider = new quais.Wallet(
-    hre.config.networks[hre.config.defaultNetwork].accounts[
-      hre.config.chainConfig.addressConfig
-    ],
-    provider
-  );
-  await provider.ready;
+	const QuaisContract = new quais.ContractFactory(
+		ethersContract.interface,
+		ethersContract.bytecode,
+		walletWithProvider
+	);
 
-  const myContract = new quais.ContractFactory(
-    Greeter.interface,
-    Greeter.bytecode,
-    walletWithProvider
-  );
+	const quaisContract = await QuaisContract.deploy('Hello, Quai', { gasLimit: 1000000 });
 
-  const greeter = await myContract.deploy("Hello, Quai");
-
-  await greeter.deployed();
-  console.log("Deployed at:", greeter.address);
+	await quaisContract.deployed();
+	console.log('Deployed at:', quaisContract.address);
 }
 
 main()
-  .then(() => process.exit(0))
-  .catch((error) => {
-    console.error(error);
-    process.exit(1);
-  });
+	.then(() => process.exit(0))
+	.catch((error) => {
+		console.error(error);
+		process.exit(1);
+	});
