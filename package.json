@@ -19,12 +19,10 @@
   "dependencies": {
     "@nomicfoundation/hardhat-toolbox": "^2.0.1",
     "@nomiclabs/hardhat-ethers": "^2.0.6",
-    "@nomiclabs/hardhat-waffle": "^2.0.3",
     "@openzeppelin/contracts": "^4.8.1",
     "child_process": "^1.0.2",
     "dotenv": "^16.0.1",
     "ethers": "^5.7.0",
-    "fs": "^0.0.1-security",
     "quais": "^0.1.9"
   },
   "devDependencies": {
@@ -35,7 +33,6 @@
     "@typechain/ethers-v5": "^10.2.0",
     "@typechain/hardhat": "^6.1.5",
     "@types/mocha": "^10.0.1",
-    "chai": "^4.3.7",
     "hardhat": "^2.9.9",
     "hardhat-gas-reporter": "^1.0.9",
     "solidity-coverage": "^0.8.2",
