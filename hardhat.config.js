@@ -2,55 +2,82 @@
  * @type import('hardhat/config').HardhatUserConfig
  */
 
-require("@nomiclabs/hardhat-ethers");
-require("@nomiclabs/hardhat-waffle");
+require('@nomiclabs/hardhat-ethers');
 require('@openzeppelin/hardhat-upgrades');
-require("@nomicfoundation/hardhat-toolbox");
-const dotenv = require("dotenv");
-dotenv.config({ path: ".env" });
-const { LOCAL_URL, GARDEN_URL, COLOSSEUM_URL, PRIVATE_KEY } = process.env;
+require('@nomicfoundation/hardhat-toolbox');
+const dotenv = require('dotenv');
+dotenv.config({ path: '.env' });
+
+const chainId = Number(process.env.CHAINID);
 
 module.exports = {
-  defaultNetwork: "local",
-  networks: {
-    local: {
-      url: LOCAL_URL,
-      accounts: [PRIVATE_KEY],
-      chainId: 1337,
-      websocket: true,
-      gas: 2000000,
-    },
-    garden: {
-      url: GARDEN_URL,
-      accounts: [PRIVATE_KEY],
-      chainId: 12000,
-      websocket: true,
-      gas: 2000000,
-    },
-    colosseum: {
-      url: COLOSSEUM_URL,
-      accounts: [PRIVATE_KEY],
-      chainId: 9000,
-      websocket: true,
-      gas: 2000000,
-    },
-  },
+	defaultNetwork: 'cyprus1',
+	networks: {
+		cyprus1: {
+			url: process.env.CYPRUS1URL.toString(),
+			accounts: [process.env.CYPRUS1PK],
+			chainId: chainId,
+		},
+		cyprus2: {
+			url: `${process.env.CYPRUS2URL}`,
+			accounts: [process.env.CYPRUS2PK],
+			chainId: chainId,
+		},
+		cyprus3: {
+			url: `${process.env.CYPRUS3URL}`,
+			accounts: [process.env.CYPRUS3PK],
+			chainId: chainId,
+		},
+		paxos1: {
+			url: `${process.env.PAXOS1URL}`,
+			accounts: [process.env.PAXOS1PK],
+			chainId: chainId,
+		},
+		paxos2: {
+			url: `${process.env.PAXOS2URL}`,
+			accounts: [process.env.PAXOS2PK],
+			chainId: chainId,
+		},
+		paxos3: {
+			url: `${process.env.PAXOS3URL}`,
+			accounts: [process.env.PAXOS3PK],
+			chainId: chainId,
+		},
+		hydra1: {
+			url: `${process.env.HYDRA1URL}`,
+			accounts: [process.env.HYDRA1PK],
+			chainId: chainId,
+		},
+		hydra2: {
+			url: `${process.env.HYDRA2URL}`,
+			accounts: [process.env.HYDRA2PK],
+			chainId: chainId,
+		},
+		hydra3: {
+			url: `${process.env.HYDRA3URL}`,
+			accounts: [process.env.HYDRA3PK],
+			chainId: chainId,
+		},
+	},
 
-  // include compiler version defined in your smart contract
-  solidity: {
-    compilers: [
-      {
-        version: "0.8.1",
-      },
-    ],
-  },
+	// include compiler version defined in your smart contract
+	solidity: {
+		compilers: [
+			{
+				version: '0.8.1',
+			},
+			{
+				version: '0.8.17',
+			},
+		],
+	},
 
-  paths: {
-    sources: "./contracts",
-    cache: "./cache",
-    artifacts: "./artifacts",
-  },
-  mocha: {
-    timeout: 20000,
-  },
+	paths: {
+		sources: './contracts',
+		cache: './cache',
+		artifacts: './artifacts',
+	},
+	mocha: {
+		timeout: 20000,
+	},
 };
