@@ -1,38 +1,38 @@
 {
-  "name": "hardhat-example",
-  "version": "1.0.0",
-  "description": "A simple example repository for deploying a smart contract to any Quai Network Chain",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo Nothing to test"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/dominant-strategies/hardhat-example.git"
-  },
-  "author": "Judi",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/dominant-strategies/hardhat-example/issues"
-  },
-  "homepage": "https://github.com/dominant-strategies/hardhat-example#readme",
-  "dependencies": {
-    "@nomicfoundation/hardhat-toolbox": "^2.0.1",
-    "@nomiclabs/hardhat-ethers": "^2.0.6",
-    "@openzeppelin/contracts": "^4.8.1",
-    "child_process": "^1.0.2",
-    "dotenv": "^16.0.1",
-    "ethers": "^5.7.0",
-    "quais": "^0.1.11"
-  },
-  "devDependencies": {
-    "@openzeppelin/hardhat-upgrades": "^1.22.1",
-    "@typechain/ethers-v5": "^10.2.0",
-    "@typechain/hardhat": "^6.1.5",
-    "@types/mocha": "^10.0.1",
-    "hardhat": "^2.9.9",
-    "ts-node": "^10.9.1",
-    "typechain": "^8.1.1",
-    "typescript": "^5.0.4"
-  }
+	"name": "hardhat-example",
+	"version": "1.0.0",
+	"description": "A simple example repository for deploying a smart contract to any Quai Network Chain",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo Nothing to test"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/dominant-strategies/hardhat-example.git"
+	},
+	"author": "Judi",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/dominant-strategies/hardhat-example/issues"
+	},
+	"homepage": "https://github.com/dominant-strategies/hardhat-example#readme",
+	"dependencies": {
+		"@nomicfoundation/hardhat-toolbox": "^2.0.1",
+		"@nomiclabs/hardhat-ethers": "^2.0.6",
+		"@openzeppelin/contracts": "^4.8.1",
+		"child_process": "^1.0.2",
+		"dotenv": "^16.0.1",
+		"ethers": "^5.7.0",
+		"quais": "^0.1.11"
+	},
+	"devDependencies": {
+		"@openzeppelin/hardhat-upgrades": "^1.22.1",
+		"@typechain/ethers-v5": "^10.2.0",
+		"@typechain/hardhat": "^6.1.5",
+		"@types/mocha": "^10.0.1",
+		"hardhat": "git@github.com:dominant-strategies/quai-hardhat.git",
+		"ts-node": "^10.9.1",
+		"typechain": "^8.1.1",
+		"typescript": "^5.0.4"
+	}
 }
