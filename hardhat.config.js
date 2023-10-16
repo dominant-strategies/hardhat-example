@@ -2,13 +2,11 @@
  * @type import('hardhat/config').HardhatUserConfig
  */
 
-require('@nomiclabs/hardhat-ethers');
-require('@openzeppelin/hardhat-upgrades');
-require('@nomicfoundation/hardhat-toolbox');
-const dotenv = require('dotenv');
-dotenv.config({ path: '.env' });
+require('@nomicfoundation/hardhat-toolbox')
+const dotenv = require('dotenv')
+dotenv.config({ path: '.env' })
 
-const chainId = Number(process.env.CHAINID);
+const chainId = Number(process.env.CHAINID)
 
 module.exports = {
 	defaultNetwork: 'cyprus1',
@@ -80,4 +78,4 @@ module.exports = {
 	mocha: {
 		timeout: 20000,
 	},
-};
+}
