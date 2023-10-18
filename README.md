@@ -9,7 +9,7 @@ This project demonstrates a basic Hardhat use case. It comes with a few sample c
 - [quai-hardhat](https://github.com/dominant-strategies/quai-hardhat) development toolkit
 - [nodejs](https://nodejs.org/en/)
 - `@nomicfoundation/hardhat-toolbox`
-- `quais` and `quais-shim`
+- `quais` and `quais-polling`
 - `dotenv`
 - `child-process` if you intend to use the `deployAllChains.js` script
 
