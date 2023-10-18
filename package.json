@@ -16,13 +16,12 @@
 		"url": "https://github.com/dominant-strategies/hardhat-example/issues"
 	},
 	"homepage": "https://github.com/dominant-strategies/hardhat-example#readme",
-	"dependencies": {
-		"quais": "^0.1.14"
-	},
 	"devDependencies": {
-		"hardhat": "github:dominant-strategies/quai-hardhat",
 		"@nomicfoundation/hardhat-toolbox": "^3.0.0",
+		"child_process": "^1.0.2",
 		"dotenv": "^16.0.1",
-		"child_process": "^1.0.2"
+		"hardhat": "github:dominant-strategies/quai-hardhat",
+		"quais": "^0.1.14",
+		"quais-polling": "^1.0.1"
 	}
 }

@@ -1,5 +1,6 @@
-const quais = require('quais')
 const hre = require('hardhat')
+const quais = require('quais')
+const { pollFor } = require('quais-polling')
 
 async function main() {
 	// Define contract using hardhat runtime (for ABI and bytecode)
@@ -22,10 +23,17 @@ async function main() {
 	)
 
 	// Deploy greeter contract with initial greeting
-	const quaisContract = await QuaisContract.deploy('Hello, Quai!')
+	const quaisContract = await QuaisContract.deploy('Hello, Quai!', { gasLimit: 1000000 })
 
-	await quaisContract.deployed()
-	console.log('Deployed at:', quaisContract.address)
+	// Use quais-polling shim to wait for contract to be deployed
+	const deployReceipt = await pollFor(
+		quaisProvider, // provider passed to poller
+		'getTransactionReceipt', // method to call on provider
+		[quaisContract.deployTransaction.hash], // params to pass to method
+		1.5, // initial polling interval in seconds
+		1 // request timeout in seconds
+	)
+	console.log('Contract deployed to address: ', deployReceipt.contractAddress)
 }
 
 main()
