@@ -58,7 +58,12 @@ module.exports = {
 		},
 	},
 
-	// include compiler version defined in your smart contract
+	// MacOS path to local solc (uncomment if using MacOS)
+	// customCompilerPath: '/usr/local/bin/solc',
+
+	// Linux path to local solc (uncomment if using Linux)
+	// customCompilerPath: '/path/to/SolidityX/build/solc/solc',
+
 	solidity: {
 		compilers: [
 			{

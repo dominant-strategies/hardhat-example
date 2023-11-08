@@ -22,6 +22,6 @@
 		"dotenv": "^16.0.1",
 		"hardhat": "github:dominant-strategies/quai-hardhat",
 		"quais": "^0.1.14",
-		"quais-polling": "^1.0.1"
+		"quais-polling": "^1.0.3"
 	}
 }
