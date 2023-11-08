@@ -7,6 +7,7 @@ This project demonstrates a basic Hardhat use case. It comes with a few sample c
 ## Dependencies
 
 - [quai-hardhat](https://github.com/dominant-strategies/quai-hardhat) development toolkit
+- [SolidityX](https://github.com/dominant-strategies/SolidityX)
 - [nodejs](https://nodejs.org/en/)
 - `@nomicfoundation/hardhat-toolbox`
 - `quais` and `quais-polling`
@@ -28,6 +29,12 @@ git clone https://github.com/dominant-strategies/hardhat-example
 ```shell
 npm i
 ```
+
+### Local SolidityX Compiler
+
+Visit the [SolidityX Repository](https://github.com/dominant-strategies/SolidityX) for instructions on how to clone and build the SolidityX compiler for your specific operating system.
+
+Once you've built the SolidityX compiler, you'll need to add path to your `solc` binary into the `customCompilerPath` variable in the `hardhat.config.js` file. The file already includes common paths for MacOS and Linux as comments.
 
 ### Environment Config
 
