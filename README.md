@@ -9,8 +9,8 @@ This project demonstrates a basic Hardhat use case. It comes with a few sample c
 - [quai-hardhat](https://github.com/dominant-strategies/quai-hardhat) development toolkit
 - [SolidityX](https://github.com/dominant-strategies/SolidityX)
 - [nodejs](https://nodejs.org/en/)
-- `@nomicfoundation/hardhat-toolbox`
-- `quais` and `quais-polling`
+- [`@nomicfoundation/hardhat-toolbox`](https://www.npmjs.com/package/@nomicfoundation/hardhat-toolbox)
+- [`quais`](https://www.npmjs.com/package/quais) and [`quais-polling`](https://www.npmjs.com/package/quais-polling)
 - `dotenv`
 - `child-process` if you intend to use the `deployAllChains.js` script
 
@@ -89,6 +89,18 @@ You can run the multi-deploy script using:
 
 ```shell
 npx hardhat run scripts/deployAllChains.js
+```
+
+### Deploying QRC20 or QRC721
+
+The `deployQRC20.js` and `deployQRC721.js` scripts have been included as a simple method of deploying QRC20 and QRC721 contracts to a single chain within Quai Network.
+
+To specify token details (token name, ticker, supply, etc) for either the QRC20 or QRC721 contract, modify constructor args inside of the contracts before compiling.
+
+The `deployAllChains.js` script can be configured to run either of the QRC scripts for each chain by changing `scripts/deploy.js` to `scripts/deployQRC20.js` or `scripts/deployQRC721.js` in this line:
+
+```javascript
+const deployProcess = spawn('npx', ['hardhat', 'run', '--network', chain, 'scripts/deploy.js'])
 ```
 
 ### Hardhat
