@@ -4,7 +4,7 @@ const { pollFor } = require('quais-polling')
 
 async function main() {
 	// Define contract using hardhat runtime (for ABI and bytecode)
-	const ethersContract = await hre.ethers.getContractFactory('Greeter')
+	const ethersContract = await hre.ethers.getContractFactory('QRC20')
 
 	// Configure quai network provider based on hardhat network config
 	const quaisProvider = new quais.providers.JsonRpcProvider(hre.network.config.url)
@@ -23,7 +23,7 @@ async function main() {
 	)
 
 	// Deploy greeter contract with initial greeting
-	const quaisContract = await QuaisContract.deploy('Hello, Quai!', { gasLimit: 1000000 })
+	const quaisContract = await QuaisContract.deploy({ gasLimit: 5000000 })
 
 	// Use quais-polling shim to wait for contract to be deployed
 	const deployReceipt = await pollFor(
