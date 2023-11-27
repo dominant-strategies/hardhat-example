@@ -20,7 +20,8 @@
 		"@nomicfoundation/hardhat-toolbox": "^3.0.0",
 		"child_process": "^1.0.2",
 		"dotenv": "^16.0.1",
-		"hardhat": "github:dominant-strategies/quai-hardhat",
+		"hardhat": "2.19.1",
+		"quai-hardhat-plugin": "^1.0.0",
 		"quais": "^0.1.14",
 		"quais-polling": "^1.0.3"
 	}

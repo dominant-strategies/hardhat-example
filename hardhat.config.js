@@ -3,6 +3,7 @@
  */
 
 require('@nomicfoundation/hardhat-toolbox')
+require('quai-hardhat-plugin')
 const dotenv = require('dotenv')
 dotenv.config({ path: '.env' })
 
@@ -59,10 +60,10 @@ module.exports = {
 	},
 
 	// MacOS path to local solc (uncomment if using MacOS)
-	// customCompilerPath: '/usr/local/bin/solc',
+	solidityx: { compilerPath: '/usr/local/bin/solc' },
 
-	// Linux path to local solc (uncomment if using Linux)
-	// customCompilerPath: '/path/to/SolidityX/build/solc/solc',
+	// common Linux path to local solc (uncomment and edit path if using Linux)
+	// solidityx: { compilerPath: '/path/to/SolidityX/build/solc/solc' },
 
 	solidity: {
 		compilers: [
