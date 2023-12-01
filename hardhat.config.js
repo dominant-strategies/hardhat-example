@@ -66,14 +66,13 @@ module.exports = {
 	// solidityx: { compilerPath: '/path/to/SolidityX/build/solc/solc' },
 
 	solidity: {
-		compilers: [
-			{
-				version: '0.8.1',
+		version: '0.8.0',
+		settings: {
+			optimizer: {
+				enabled: true,
+				runs: 1000,
 			},
-			{
-				version: '0.8.17',
-			},
-		],
+		},
 	},
 
 	paths: {
