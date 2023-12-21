@@ -71,11 +71,11 @@ contract QRC20 {
      * All two of these values are immutable: they can only be set once during
      * construction.
      */
-    constructor() {
-        _name = "Quai Cross-Chain Token";
-        _symbol = "QXC";
+    constructor(string memory name_, string memory symbol_, uint256 initialSupply_) {
+        _name = name_;
+        _symbol = symbol_;
         _deployer = msg.sender;
-        _totalSupply = 1000E18; // 1000 tokens
+        uint256 initialSupply = initialSupply_; // 1000 tokens
         _mint(_deployer, _totalSupply);
         Ranges[0] = Range(0, 29);    // zone 0-0 // cyprus1                        
         Ranges[1] = Range(30, 58); // zone 0-1 // cyprus2
