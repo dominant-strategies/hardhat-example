@@ -484,23 +484,6 @@ contract QRC20 {
     ) internal  {}
 
     /**
-    * This function allows the deployer to add an external address for the token contract on a different chain.
-    * Note that the deployer can only add one address per chain and this address cannot be changed afterwards.
-    * Be very careful when adding an address here.
-    */
-    function AddApprovedAddress(uint8 chain, address addr) public {
-        bool isInternal;
-        assembly {
-            isInternal := isaddrinternal(addr)
-        }
-        require(!isInternal, "Address is not external");
-        require(msg.sender == _deployer, "Sender is not deployer");
-        require(chain < 9, "Max 9 zones");
-        require(ApprovedAddresses[chain] == address(0), "The approved address for this zone already exists");
-        ApprovedAddresses[chain] = addr;
-    }
-
-    /**
     * This function allows the deployer to add external addresses for the token contract on different chains.
     * Note that the deployer can only add one address per chain and this address cannot be changed afterwards.
     * In comparison to AddApprovedAddress, this function allows the address(es) to be internal so that the same

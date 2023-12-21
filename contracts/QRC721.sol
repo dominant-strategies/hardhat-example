@@ -626,21 +626,21 @@ contract QRC721 is IERC721Errors {
         }
     }
 
-     /**
-    * This function allows the deployer to add an external address for the token contract on a different chain.
+    /**
+    * This function allows the deployer to add external addresses for the token contract on different chains.
     * Note that the deployer can only add one address per chain and this address cannot be changed afterwards.
-    * Be very careful when adding an address here.
+    * In comparison to AddApprovedAddress, this function allows the address(es) to be internal so that the same
+    * approved list can be used for every instance of the contract on each chain.
+    * Be very careful when adding addresses here.
     */
-    function AddApprovedAddress(uint8 chain, address addr) public {
-        bool isInternal;
-        assembly {
-            isInternal := isaddrinternal(addr)
-        }
-        require(!isInternal, "Address is not external");
+    function AddApprovedAddresses(uint8[] calldata chain, address[] calldata addr) external {
         require(msg.sender == _deployer, "Sender is not deployer");
-        require(chain < 9, "Max 9 zones");
-        require(ApprovedAddresses[chain] == address(0), "The approved address for this zone already exists");
-        ApprovedAddresses[chain] = addr;
+        require(chain.length == addr.length, "chain and address arrays must be the same length");
+        for(uint8 i = 0; i < chain.length; i++) {
+            require(chain[i] < 9, "Max 9 zones");
+            require(ApprovedAddresses[chain[i]] == address(0), "The approved address for this zone already exists");
+            ApprovedAddresses[chain[i]] = addr[i];
+        }
     }
 
     // This function uses the stored prefix list to determine an address's location based on its first byte.
