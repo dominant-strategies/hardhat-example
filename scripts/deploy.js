@@ -1,11 +1,14 @@
 const hre = require('hardhat')
 const quais = require('quais')
 const { pollFor } = require('quais-polling')
+const GreeterJson = require('../artifacts/contracts/Greeter.sol/Greeter.json')
+
+// Define initial greeting to be used by contract constructor
+constructorArgs = {
+	greeting: 'Hello, Quai!',
+}
 
 async function main() {
-	// Define contract using hardhat runtime (for ABI and bytecode)
-	const ethersContract = await hre.ethers.getContractFactory('Greeter')
-
 	// Configure quai network provider based on hardhat network config
 	const quaisProvider = new quais.providers.JsonRpcProvider(hre.network.config.url)
 
@@ -16,14 +19,10 @@ async function main() {
 	await quaisProvider.ready
 
 	// Build contract factory using quai provider and wallet
-	const QuaisContract = new quais.ContractFactory(
-		ethersContract.interface.fragments,
-		ethersContract.bytecode,
-		walletWithProvider
-	)
+	const QuaisContract = new quais.ContractFactory(GreeterJson.abi, GreeterJson.bytecode, walletWithProvider)
 
 	// Deploy greeter contract with initial greeting
-	const quaisContract = await QuaisContract.deploy('Hello, Quai!', { gasLimit: 1000000 })
+	const quaisContract = await QuaisContract.deploy(constructorArgs.greeting, { gasLimit: 5000000 })
 
 	// Use quais-polling shim to wait for contract to be deployed
 	const deployReceipt = await pollFor(

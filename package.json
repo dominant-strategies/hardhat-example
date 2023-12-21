@@ -18,11 +18,10 @@
 	"homepage": "https://github.com/dominant-strategies/hardhat-example#readme",
 	"devDependencies": {
 		"@nomicfoundation/hardhat-toolbox": "^3.0.0",
-		"child_process": "^1.0.2",
 		"dotenv": "^16.0.1",
 		"hardhat": "2.19.1",
-		"quai-hardhat-plugin": "^1.0.0",
-		"quais": "^0.1.14",
-		"quais-polling": "^1.0.3"
+		"quai-hardhat-plugin": "^1.0.2",
+		"quais": "^0.1.17",
+		"quais-polling": "^1.0.4"
 	}
 }

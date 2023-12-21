@@ -12,7 +12,6 @@ This project demonstrates a basic Hardhat use case. It comes with a few sample c
 - [`@nomicfoundation/hardhat-toolbox`](https://www.npmjs.com/package/@nomicfoundation/hardhat-toolbox)
 - [`quais`](https://www.npmjs.com/package/quais) and [`quais-polling`](https://www.npmjs.com/package/quais-polling)
 - `dotenv`
-- `child-process` if you intend to use the `deployAllChains.js` script
 
 ## Run and Deploy
 
@@ -31,6 +30,17 @@ npm i
 ```
 
 ### Local SolidityX Compiler
+
+There are two methods of installing the SolidityX compiler for use with Hardhat:
+
+- Install the SolidityX compiler via [`quai-hardhat-plugin`](https://www.npmjs.com/package/quai-hardhat-plugin) (**Recommended**)
+- Install and build the SolidityX compiler from source
+
+#### Installing via Plugin
+
+If you've installed `quai-hardhat-plugin` already, the SolidityX compiler will be installed automatically when you run `npx hardhat compile` for MacOS and Linux users. Windows is not currently supported by the plugin.
+
+#### Installing from Source
 
 Visit the [SolidityX Repository](https://github.com/dominant-strategies/SolidityX) for instructions on how to clone and build the SolidityX compiler for your specific operating system.
 
@@ -79,29 +89,11 @@ cp .env.dist .env
      - `hydra2`
      - `hydra3`
 
-### Alternate Configurations
-
-The `deployAllChains.js` script has been included as a simple method of automating deployments across all chains within Quai Network. It utilizes the `child-process` package to run the `deploy.js` script for each chain.
-
-You can specify which chains you'd like to multi-deploy to by modifying the `deployAllChains.js` script. Contract and deployment specific configuration should be done in the `deploy.js` script.
-
-You can run the multi-deploy script using:
-
-```shell
-npx hardhat run scripts/deployAllChains.js
-```
-
 ### Deploying QRC20 or QRC721
 
 The `deployQRC20.js` and `deployQRC721.js` scripts have been included as a simple method of deploying QRC20 and QRC721 contracts to a single chain within Quai Network.
 
-To specify token details (token name, ticker, supply, etc) for either the QRC20 or QRC721 contract, modify constructor args inside of the contracts before compiling.
-
-The `deployAllChains.js` script can be configured to run either of the QRC scripts for each chain by changing `scripts/deploy.js` to `scripts/deployQRC20.js` or `scripts/deployQRC721.js` in this line:
-
-```javascript
-const deployProcess = spawn('npx', ['hardhat', 'run', '--network', chain, 'scripts/deploy.js'])
-```
+To specify token details (token name, ticker, supply, etc) for either the QRC20 or QRC721 contract, modify the `constructorArgs` object in the deploy script.
 
 ### Hardhat
 

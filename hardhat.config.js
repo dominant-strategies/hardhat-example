@@ -59,9 +59,10 @@ module.exports = {
 		},
 	},
 
-	// MacOS path to local solc (uncomment if using MacOS)
-	solidityx: { compilerPath: '/usr/local/bin/solc' },
+	// optional solidityx config for locally built solcx, if not specified solcx will be downloaded
 
+	// common macOS path to local solc (uncomment and edit path if using macOS)
+	// solidityx: { compilerPath: '/usr/local/bin/solc' },
 	// common Linux path to local solc (uncomment and edit path if using Linux)
 	// solidityx: { compilerPath: '/path/to/SolidityX/build/solc/solc' },
 

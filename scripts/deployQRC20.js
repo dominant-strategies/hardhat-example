@@ -1,11 +1,16 @@
 const hre = require('hardhat')
 const quais = require('quais')
 const { pollFor } = require('quais-polling')
+const QRC20Json = require('../artifacts/contracts/QRC20.sol/QRC20.json')
+
+// Define token information to be used by contract constructor
+const constructorArgs = {
+	name: 'Test Token',
+	symbol: 'TSTK',
+	totalSupply: 10000000,
+}
 
 async function main() {
-	// Define contract using hardhat runtime (for ABI and bytecode)
-	const ethersContract = await hre.ethers.getContractFactory('QRC20')
-
 	// Configure quai network provider based on hardhat network config
 	const quaisProvider = new quais.providers.JsonRpcProvider(hre.network.config.url)
 
@@ -16,14 +21,12 @@ async function main() {
 	await quaisProvider.ready
 
 	// Build contract factory using quai provider and wallet
-	const QuaisContract = new quais.ContractFactory(
-		ethersContract.interface.fragments,
-		ethersContract.bytecode,
-		walletWithProvider
-	)
+	const QuaisContract = new quais.ContractFactory(QRC20Json.abi, QRC20Json.bytecode, walletWithProvider)
 
 	// Deploy greeter contract with initial greeting
-	const quaisContract = await QuaisContract.deploy({ gasLimit: 5000000 })
+	const quaisContract = await QuaisContract.deploy(constructorArgs.name, constructorArgs.symbol, constructorArgs.totalSupply, {
+		gasLimit: 5000000,
+	})
 
 	// Use quais-polling shim to wait for contract to be deployed
 	const deployReceipt = await pollFor(
