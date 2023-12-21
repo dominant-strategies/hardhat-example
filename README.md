@@ -6,12 +6,13 @@ This project demonstrates a basic Hardhat use case. It comes with a few sample c
 
 ## Dependencies
 
-- [quai-hardhat](https://github.com/dominant-strategies/quai-hardhat) development toolkit
-- [SolidityX](https://github.com/dominant-strategies/SolidityX)
-- [nodejs](https://nodejs.org/en/)
-- [`@nomicfoundation/hardhat-toolbox`](https://www.npmjs.com/package/@nomicfoundation/hardhat-toolbox)
-- [`quais`](https://www.npmjs.com/package/quais) and [`quais-polling`](https://www.npmjs.com/package/quais-polling)
-- `dotenv`
+- [`hardhat`](https://www.npmjs.com/package/hardhat): Development toolkit
+- [SolidityX](https://github.com/dominant-strategies/SolidityX): A fork of the Solidity compiler that supports Quai Network's QRC20 and QRC721 token standards
+- [Nodejs](https://nodejs.org/en/): Javascript runtime engine
+- [`@nomicfoundation/hardhat-toolbox`](https://www.npmjs.com/package/@nomicfoundation/hardhat-toolbox): Hardhat utils
+- [`quais`](https://www.npmjs.com/package/quais) and [`quais-polling`](https://www.npmjs.com/package/quais-polling): Javascript SDK for interacting with Quai Network
+- [`quai-hardhat-plugin`](https://www.npmjs.com/package/quai-hardhat-plugin): A plugin that installs the SolidityX compiler for use with Hardhat.
+- [`dotenv`](https://www.npmjs.com/package/dotenv): A zero-dependency module that securely loads environment variables.
 
 ## Run and Deploy
 
@@ -41,6 +42,8 @@ There are two methods of installing the SolidityX compiler for use with Hardhat:
 If you've installed `quai-hardhat-plugin` already, the SolidityX compiler will be installed automatically when you run `npx hardhat compile` for MacOS and Linux users. Windows is not currently supported by the plugin.
 
 #### Installing from Source
+
+**Note:** Building the compiler from source still requires the `quai-hardhat-plugin` to be installed.
 
 Visit the [SolidityX Repository](https://github.com/dominant-strategies/SolidityX) for instructions on how to clone and build the SolidityX compiler for your specific operating system.
 
