@@ -72,13 +72,13 @@ cp .env.dist .env
     - <u>Local</u>: HTTP ports for each chain's `RPCURL` can be found [here](https://docs.quai.network/node/node-overview#networking-and-conventions).
     - <u>Remote</u>: hosted RPC endpoints for each chain can be found [here](https://docs.quai.network/develop/networks#testnet).
 
-### Deploy
+### Deploying a Simple Contract
 
-1. Configure the `deploy.js` script to specify the contract you'd like to deploy
-   - Pass the name of the contract into the hardhat runtime contract definition
-   - Pass relevant constructor arguments into the deploy command (i.e. the intial greeting for the `greeter.sol` contract)
-2. Compile contracts using `npx hardhat compile`
-3. Deploy contract to a single chain using `npx hardhat run scripts/deploy.js`
+1. The `deploy.js` script is configured to deploy the `greeter.sol` contract by default.
+   - Pass the name of the greeter contract into the hardhat runtime contract definition
+   - Pass the initial greeting constructor argument into the deploy command
+2. Compile greeter contract using `npx hardhat compile`
+3. Deploy greeter to a single chain using `npx hardhat run scripts/deploy.js`
    - This will deploy to the `defaultNetwork` specified in your `hardhat.config.js`
    - You can specify a network other than the `defaultNetwork` by passing the `--network networkName` flag to the deploy command. Replace `networkName` with one of the options below.
    - Available `networkName` are:
@@ -96,7 +96,7 @@ cp .env.dist .env
 
 The `deployQRC20.js` and `deployQRC721.js` scripts have been included as a simple method of deploying QRC20 and QRC721 contracts to a single chain within Quai Network.
 
-To specify token details (token name, ticker, supply, etc) for either the QRC20 or QRC721 contract, modify the `constructorArgs` object in the deploy script.
+To specify token details (token name, ticker, supply, etc) for either the QRC20 or QRC721 contract, modify the `constructorArgs` object in the deploy script. Then compile the contract via `npx hardhat compile` and deploy via `npx hardhat run scripts/deployQRC20.js` or `npx hardhat run scripts/deployQRC721.js`.
 
 ### Hardhat
 
