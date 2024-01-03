@@ -1,4 +1,5 @@
 node_modules
+solc
 
 #Hardhat files
 cache
@@ -6,3 +7,4 @@ artifacts
 
 #Env files
 .env
+
