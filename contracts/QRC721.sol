@@ -205,7 +205,7 @@ contract QRC721 is IERC721Errors {
      * token will be the concatenation of the `baseURI` and the `tokenId`. Empty
      * by default, can be overridden in child contracts.
      */
-    function _baseURI() internal view  returns (string memory) {
+    function _baseURI() internal pure  returns (string memory) {
         return "https://qu.ai/nft/";
     }
 

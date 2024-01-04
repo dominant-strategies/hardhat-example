@@ -76,7 +76,7 @@ contract QRC20 {
         _symbol = symbol_;
         _deployer = msg.sender;
         uint256 initialSupply = initialSupply_; // 1000 tokens
-        _mint(_deployer, _totalSupply);
+        _mint(_deployer, initialSupply);
         Ranges[0] = Range(0, 29);    // zone 0-0 // cyprus1                        
         Ranges[1] = Range(30, 58); // zone 0-1 // cyprus2
         Ranges[2] = Range(59, 87); // zone 0-2 // cyprus3
@@ -116,7 +116,7 @@ contract QRC20 {
      * no way affects any of the arithmetic of the contract, including
      * {IERC20-balanceOf} and {IERC20-transfer}.
      */
-    function decimals() public view  returns (uint8) {
+    function decimals() public pure  returns (uint8) {
         return 18;
     }
 
