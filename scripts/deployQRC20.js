@@ -26,6 +26,7 @@ async function main() {
 	// Deploy greeter contract with initial greeting
 	const quaisContract = await QuaisContract.deploy(constructorArgs.name, constructorArgs.symbol, constructorArgs.totalSupply, {
 		gasLimit: 5000000,
+		nonce: 1,
 	})
 
 	// Use quais-polling shim to wait for contract to be deployed

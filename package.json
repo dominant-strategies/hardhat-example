@@ -21,7 +21,11 @@
 		"dotenv": "^16.0.1",
 		"hardhat": "2.19.1",
 		"quai-hardhat-plugin": "^1.0.2",
-		"quais": "^0.1.17",
 		"quais-polling": "^1.0.4"
+	},
+	"dependencies": {
+		"ethers": "^6.9.2",
+		"quais6": "file:quais-6.8.1.tgz",
+		"quais": "0.1.17"
 	}
 }
