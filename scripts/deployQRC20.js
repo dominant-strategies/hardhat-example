@@ -5,9 +5,9 @@ const QRC20Json = require('../artifacts/contracts/QRC20.sol/QRC20.json')
 
 // Define token information to be used by contract constructor
 const constructorArgs = {
-	name: 'Test Token',
-	symbol: 'TSTK',
-	totalSupply: 10000000,
+	name: 'TestToken',
+	symbol: 'TEST',
+	initialSupply: 10 * Math.pow(10,10),
 }
 
 async function main() {
@@ -24,7 +24,7 @@ async function main() {
 	const QuaisContract = new quais.ContractFactory(QRC20Json.abi, QRC20Json.bytecode, walletWithProvider)
 
 	// Deploy greeter contract with initial greeting
-	const quaisContract = await QuaisContract.deploy(constructorArgs.name, constructorArgs.symbol, constructorArgs.totalSupply, {
+	const quaisContract = await QuaisContract.deploy(constructorArgs.name, constructorArgs.symbol, constructorArgs.initialSupply, {
 		gasLimit: 5000000,
 	})
 

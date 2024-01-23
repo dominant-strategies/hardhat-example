@@ -30,13 +30,13 @@ contract QRC20 {
 
     // List of external token contracts that can send tokens to users on this chain
     address[12] public ApprovedAddresses;
- 
+
     uint256 private _totalSupply;
 
     string private _name;
     string private _symbol;
     address private _deployer;
-    
+
     // Address prefix range
     struct Range {
         uint8 low;
@@ -54,13 +54,21 @@ contract QRC20 {
      */
     event Transfer(address indexed from, address indexed to, uint256 value);
 
-    event ExternalTransfer(address indexed from, address indexed to, uint256 value);
+    event ExternalTransfer(
+        address indexed from,
+        address indexed to,
+        uint256 value
+    );
 
     /**
      * @dev Emitted when the allowance of a `spender` for an `owner` is set by
      * a call to {approve}. `value` is the new allowance.
      */
-    event Approval(address indexed owner, address indexed spender, uint256 value);
+    event Approval(
+        address indexed owner,
+        address indexed spender,
+        uint256 value
+    );
 
     /**
      * @dev Sets the values for {name} and {symbol}.
@@ -71,13 +79,18 @@ contract QRC20 {
      * All two of these values are immutable: they can only be set once during
      * construction.
      */
-    constructor(string memory name_, string memory symbol_, uint256 initialSupply_) {
+    constructor(
+        string memory name_,
+        string memory symbol_,
+        uint256 initialSupply_
+    ) {
         _name = name_;
         _symbol = symbol_;
         _deployer = msg.sender;
         uint256 initialSupply = initialSupply_; // 1000 tokens
+        _totalSupply = initialSupply;
         _mint(_deployer, _totalSupply);
-        Ranges[0] = Range(0, 29);    // zone 0-0 // cyprus1                        
+        Ranges[0] = Range(0, 29); // zone 0-0 // cyprus1
         Ranges[1] = Range(30, 58); // zone 0-1 // cyprus2
         Ranges[2] = Range(59, 87); // zone 0-2 // cyprus3
         Ranges[3] = Range(88, 115); // zone 1-0 // paxos1
@@ -91,7 +104,7 @@ contract QRC20 {
     /**
      * @dev Returns the name of the token.
      */
-    function name() public view  returns (string memory) {
+    function name() public view returns (string memory) {
         return _name;
     }
 
@@ -99,7 +112,7 @@ contract QRC20 {
      * @dev Returns the symbol of the token, usually a shorter version of the
      * name.
      */
-    function symbol() public view  returns (string memory) {
+    function symbol() public view returns (string memory) {
         return _symbol;
     }
 
@@ -116,21 +129,21 @@ contract QRC20 {
      * no way affects any of the arithmetic of the contract, including
      * {IERC20-balanceOf} and {IERC20-transfer}.
      */
-    function decimals() public view  returns (uint8) {
+    function decimals() public view returns (uint8) {
         return 18;
     }
 
     /**
      * @dev See {IERC20-totalSupply}.
      */
-    function totalSupply() public view  returns (uint256) {
+    function totalSupply() public view returns (uint256) {
         return _totalSupply;
     }
 
     /**
      * @dev See {IERC20-balanceOf}.
      */
-    function balanceOf(address account) public view  returns (uint256) {
+    function balanceOf(address account) public view returns (uint256) {
         return _balances[account];
     }
 
@@ -146,6 +159,7 @@ contract QRC20 {
         _transfer(msg.sender, to, amount);
         return true;
     }
+
     /**
     * This function sends tokens to an address on another chain by creating an external transaction (ETX).
 
@@ -163,7 +177,13 @@ contract QRC20 {
 
     * You must send a value with the function call equal to the following amount: (baseFee + minerTip) * gasLimit
     */
-    function crossChainTransfer(address to, uint256 amount, uint256 gasLimit, uint256 minerTip, uint256 baseFee) public payable {
+    function crossChainTransfer(
+        address to,
+        uint256 amount,
+        uint256 gasLimit,
+        uint256 minerTip,
+        uint256 baseFee
+    ) public payable {
         bool isInternal;
         assembly {
             isInternal := isaddrinternal(to)
@@ -172,40 +192,69 @@ contract QRC20 {
 
         _burn(msg.sender, amount);
         address toAddr = ApprovedAddresses[getAddressLocation(to)];
-        require(toAddr != address(0), "Token is not available on the destination chain"); 
+        require(
+            toAddr != address(0),
+            "Token is not available on the destination chain"
+        );
         uint totalGas = (baseFee + minerTip) * gasLimit;
-        require(msg.value  >= totalGas, string(abi.encodePacked("Not enough gas sent, need at least ", uint2str(totalGas), " wei")));
-        bytes memory encoded = abi.encodeWithSignature("incomingTransfer(address,uint256)", to, amount);
-        bool success;                                       // this is not used. opETX only returns false if there was an error in creating the ETX, not executing it. 
+        require(
+            msg.value >= totalGas,
+            string(
+                abi.encodePacked(
+                    "Not enough gas sent, need at least ",
+                    uint2str(totalGas),
+                    " wei"
+                )
+            )
+        );
+        bytes memory encoded = abi.encodeWithSignature(
+            "incomingTransfer(address,uint256)",
+            to,
+            amount
+        );
+        bool success; // this is not used. opETX only returns false if there was an error in creating the ETX, not executing it.
         assembly {
             success := etx(
-                0,                                          // temp variable, can be anything (unused)
-                toAddr,                                     // address to send to
-                0,                                          // amount to send in wei
-                gasLimit,                                     // gas limit (entire gas limit will be consumed and sent to destination)
-                minerTip,                                     // miner tip in wei
-                baseFee,                                      // base fee in wei
-                add(encoded, 0x20),                                          // input offset in memory (the first 32 byte number is just the size of the array)
-                mload(encoded),                                          // input size in memory (loading the first number gives the size)
-                0,                                          // accesslist offset in memory
-                0                                           // accesslist size in memory
+                0, // temp variable, can be anything (unused)
+                toAddr, // address to send to
+                0, // amount to send in wei
+                gasLimit, // gas limit (entire gas limit will be consumed and sent to destination)
+                minerTip, // miner tip in wei
+                baseFee, // base fee in wei
+                add(encoded, 0x20), // input offset in memory (the first 32 byte number is just the size of the array)
+                mload(encoded), // input size in memory (loading the first number gives the size)
+                0, // accesslist offset in memory
+                0 // accesslist size in memory
             )
         }
         emit ExternalTransfer(msg.sender, to, amount);
     }
+
     /**
-    * This function is used by an emitted ETX to send tokens to the sender.
-    * The sending contract must be an approved token contract for its respective chain.
-    */
+     * This function is used by an emitted ETX to send tokens to the sender.
+     * The sending contract must be an approved token contract for its respective chain.
+     */
     function incomingTransfer(address to, uint256 amount) public {
-        require(ApprovedAddresses[getAddressLocation(msg.sender)] == msg.sender, string(abi.encodePacked("Sender ", abi.encodePacked(msg.sender), " not approved")));
+        require(
+            ApprovedAddresses[getAddressLocation(msg.sender)] == msg.sender,
+            string(
+                abi.encodePacked(
+                    "Sender ",
+                    abi.encodePacked(msg.sender),
+                    " not approved"
+                )
+            )
+        );
         _mint(to, amount);
     }
 
     /**
      * @dev See {IERC20-allowance}.
      */
-    function allowance(address owner, address spender) public view  returns (uint256) {
+    function allowance(
+        address owner,
+        address spender
+    ) public view returns (uint256) {
         return _allowances[owner][spender];
     }
 
@@ -219,7 +268,7 @@ contract QRC20 {
      *
      * - `spender` cannot be the zero address.
      */
-    function approve(address spender, uint256 amount) public  returns (bool) {
+    function approve(address spender, uint256 amount) public returns (bool) {
         _approve(msg.sender, spender, amount);
         return true;
     }
@@ -244,7 +293,8 @@ contract QRC20 {
         address from,
         address to,
         uint256 amount
-    ) public   returns (bool) { // TODO: Allow this to work cross-chain (crossChainTransferFrom)
+    ) public returns (bool) {
+        // TODO: Allow this to work cross-chain (crossChainTransferFrom)
         _spendAllowance(from, msg.sender, amount);
         _transfer(from, to, amount);
         return true;
@@ -262,7 +312,10 @@ contract QRC20 {
      *
      * - `spender` cannot be the zero address.
      */
-    function increaseAllowance(address spender, uint256 addedValue) public  returns (bool) {
+    function increaseAllowance(
+        address spender,
+        uint256 addedValue
+    ) public returns (bool) {
         address owner = msg.sender;
         _approve(owner, spender, allowance(owner, spender) + addedValue);
         return true;
@@ -282,10 +335,16 @@ contract QRC20 {
      * - `spender` must have allowance for the caller of at least
      * `subtractedValue`.
      */
-    function decreaseAllowance(address spender, uint256 subtractedValue) public  returns (bool) {
+    function decreaseAllowance(
+        address spender,
+        uint256 subtractedValue
+    ) public returns (bool) {
         address owner = msg.sender;
         uint256 currentAllowance = allowance(owner, spender);
-        require(currentAllowance >= subtractedValue, "ERC20: decreased allowance below zero");
+        require(
+            currentAllowance >= subtractedValue,
+            "ERC20: decreased allowance below zero"
+        );
         unchecked {
             _approve(owner, spender, currentAllowance - subtractedValue);
         }
@@ -307,16 +366,15 @@ contract QRC20 {
      * - `to` cannot be the zero address.
      * - `from` must have a balance of at least `amount`.
      */
-    function _transfer(
-        address from,
-        address to,
-        uint256 amount
-    ) internal  {
+    function _transfer(address from, address to, uint256 amount) internal {
         bool isInternal;
         assembly {
-            isInternal := isaddrinternal(to)    // This opcode returns true if an address is internal
+            isInternal := isaddrinternal(to) // This opcode returns true if an address is internal
         }
-        require(isInternal, "Address is external. Use cross-chain transfer function.");
+        require(
+            isInternal,
+            "Address is external. Use cross-chain transfer function."
+        );
 
         require(from != address(0), "ERC20: transfer from the zero address");
         require(to != address(0), "ERC20: transfer to the zero address");
@@ -324,7 +382,10 @@ contract QRC20 {
         _beforeTokenTransfer(from, to, amount);
 
         uint256 fromBalance = _balances[from];
-        require(fromBalance >= amount, "ERC20: transfer amount exceeds balance");
+        require(
+            fromBalance >= amount,
+            "ERC20: transfer amount exceeds balance"
+        );
         unchecked {
             _balances[from] = fromBalance - amount;
             // Overflow not possible: the sum of all balances is capped by totalSupply, and the sum is preserved by
@@ -346,7 +407,7 @@ contract QRC20 {
      *
      * - `account` cannot be the zero address.
      */
-    function _mint(address account, uint256 amount) internal  {
+    function _mint(address account, uint256 amount) internal {
         require(account != address(0), "ERC20: mint to the zero address");
 
         _beforeTokenTransfer(address(0), account, amount);
@@ -372,7 +433,7 @@ contract QRC20 {
      * - `account` cannot be the zero address.
      * - `account` must have at least `amount` tokens.
      */
-    function _burn(address account, uint256 amount) internal  {
+    function _burn(address account, uint256 amount) internal {
         require(account != address(0), "ERC20: burn from the zero address");
 
         _beforeTokenTransfer(account, address(0), amount);
@@ -403,16 +464,15 @@ contract QRC20 {
      * - `owner` cannot be the zero address.
      * - `spender` cannot be the zero address.
      */
-    function _approve(
-        address owner,
-        address spender,
-        uint256 amount
-    ) internal  {
+    function _approve(address owner, address spender, uint256 amount) internal {
         bool isInternal;
         assembly {
-            isInternal := isaddrinternal(spender)    // This opcode returns true if an address is internal
+            isInternal := isaddrinternal(spender) // This opcode returns true if an address is internal
         }
-        require(isInternal, "Spender address is external. Use cross-chain transfer function.");
+        require(
+            isInternal,
+            "Spender address is external. Use cross-chain transfer function."
+        );
 
         require(owner != address(0), "ERC20: approve from the zero address");
         require(spender != address(0), "ERC20: approve to the zero address");
@@ -433,10 +493,13 @@ contract QRC20 {
         address owner,
         address spender,
         uint256 amount
-    ) internal  {
+    ) internal {
         uint256 currentAllowance = allowance(owner, spender);
         if (currentAllowance != type(uint256).max) {
-            require(currentAllowance >= amount, "ERC20: insufficient allowance");
+            require(
+                currentAllowance >= amount,
+                "ERC20: insufficient allowance"
+            );
             unchecked {
                 _approve(owner, spender, currentAllowance - amount);
             }
@@ -461,7 +524,7 @@ contract QRC20 {
         address from,
         address to,
         uint256 amount
-    ) internal  {}
+    ) internal {}
 
     /**
      * @dev Hook that is called after any transfer of tokens. This includes
@@ -481,29 +544,38 @@ contract QRC20 {
         address from,
         address to,
         uint256 amount
-    ) internal  {}
+    ) internal {}
 
     /**
-    * This function allows the deployer to add external addresses for the token contract on different chains.
-    * Note that the deployer can only add one address per chain and this address cannot be changed afterwards.
-    * In comparison to AddApprovedAddress, this function allows the address(es) to be internal so that the same
-    * approved list can be used for every instance of the contract on each chain.
-    * Be very careful when adding addresses here.
-    */
-    function AddApprovedAddresses(uint8[] calldata chain, address[] calldata addr) external {
+     * This function allows the deployer to add external addresses for the token contract on different chains.
+     * Note that the deployer can only add one address per chain and this address cannot be changed afterwards.
+     * In comparison to AddApprovedAddress, this function allows the address(es) to be internal so that the same
+     * approved list can be used for every instance of the contract on each chain.
+     * Be very careful when adding addresses here.
+     */
+    function AddApprovedAddresses(
+        uint8[] calldata chain,
+        address[] calldata addr
+    ) external {
         require(msg.sender == _deployer, "Sender is not deployer");
-        require(chain.length == addr.length, "chain and address arrays must be the same length");
-        for(uint8 i = 0; i < chain.length; i++) {
+        require(
+            chain.length == addr.length,
+            "chain and address arrays must be the same length"
+        );
+        for (uint8 i = 0; i < chain.length; i++) {
             require(chain[i] < 9, "Max 9 zones");
-            require(ApprovedAddresses[chain[i]] == address(0), "The approved address for this zone already exists");
+            require(
+                ApprovedAddresses[chain[i]] == address(0),
+                "The approved address for this zone already exists"
+            );
             ApprovedAddresses[chain[i]] = addr[i];
         }
     }
 
     // This function uses the stored prefix list to determine an address's location based on its first byte.
     function getAddressLocation(address addr) public view returns (uint8) {
-        uint8 prefix =  uint8(toBytes(addr)[0]);
-        for(uint8 i = 0; i < 9; i++) {
+        uint8 prefix = uint8(toBytes(addr)[0]);
+        for (uint8 i = 0; i < 9; i++) {
             if (prefix >= Ranges[i].low && prefix <= Ranges[i].high) {
                 return i;
             }
@@ -515,7 +587,9 @@ contract QRC20 {
         return abi.encodePacked(a);
     }
 
-    function uint2str(uint _i) internal pure returns (string memory _uintAsString) {
+    function uint2str(
+        uint _i
+    ) internal pure returns (string memory _uintAsString) {
         if (_i == 0) {
             return "0";
         }
@@ -528,8 +602,8 @@ contract QRC20 {
         bytes memory bstr = new bytes(len);
         uint k = len;
         while (_i != 0) {
-            k = k-1;
-            uint8 temp = (48 + uint8(_i - _i / 10 * 10));
+            k = k - 1;
+            uint8 temp = (48 + uint8(_i - (_i / 10) * 10));
             bytes1 b1 = bytes1(temp);
             bstr[k] = b1;
             _i /= 10;
