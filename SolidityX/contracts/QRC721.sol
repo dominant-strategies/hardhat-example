@@ -11,7 +11,7 @@ interface IERC721Errors {
      * @dev Indicates that an address can't be an owner. For example, `address(0)` is a forbidden owner in EIP-20.
      * Used in balance queries.
      * @param owner Address of the current owner of a token.
-     */
+    */
     error ERC721InvalidOwner(address owner);
 
     /**
@@ -97,6 +97,9 @@ contract QRC721 is IERC721Errors {
     // Token symbol
     string private _symbol;
 
+    // Base URI
+    string private baseURI;
+
     address private _deployer;
 
     // List of external token contracts that can send tokens to users on this chain
@@ -139,9 +142,10 @@ contract QRC721 is IERC721Errors {
     /**
      * @dev Initializes the contract by setting a `name` and a `symbol` to the token collection.
      */
-    constructor(string memory name_, string memory symbol_) {
+    constructor(string memory name_, string memory symbol_, string memory baseURI_) {
         _name = name_;
         _symbol = symbol_;
+        baseURI = baseURI_;
         _deployer = msg.sender;
         _mint(_deployer, 0);
         Ranges[0] = Range(0, 29);    // zone 0-0 // cyprus1                        
@@ -205,8 +209,8 @@ contract QRC721 is IERC721Errors {
      * token will be the concatenation of the `baseURI` and the `tokenId`. Empty
      * by default, can be overridden in child contracts.
      */
-    function _baseURI() internal pure  returns (string memory) {
-        return "https://qu.ai/nft/";
+    function _baseURI() internal view  returns (string memory) {
+        return baseURI;
     }
 
     /**

@@ -1,114 +1,32 @@
 ## hardhat-example
 
-`hardhat-example` provides a simple smart contract deployment framework using the Hardhat development kit on Quai Network.
+`hardhat-example` provides a simple smart contract deployment framework using the Hardhat development kit on Quai Network using either **Solidity or SolidityX**.
 
-This project demonstrates a basic Hardhat use case. It comes with a few sample contracts, and a script that deploys a contract.
+### Solidity vs. SolidityX
 
-## Dependencies
+You can deploy smart contracts to Quai Network using either regular Solidity or the Quai Network specific SolidityX. The primary difference between the two is that SolidityX supports additional [cross-chain features](https://qu.ai/docs/develop/smart-contracts/opcode-additions/). You can read more about the differences between Solidity and SolidityX [here](https://qu.ai/docs/develop/smart-contracts/languages/).
 
-- [`hardhat`](https://www.npmjs.com/package/hardhat): Development toolkit
-- [SolidityX](https://github.com/dominant-strategies/SolidityX): A fork of the Solidity compiler that supports Quai Network's QRC20 and QRC721 token standards
-- [Nodejs](https://nodejs.org/en/): Javascript runtime engine
-- [`@nomicfoundation/hardhat-toolbox`](https://www.npmjs.com/package/@nomicfoundation/hardhat-toolbox): Hardhat utils
-- [`quais`](https://www.npmjs.com/package/quais) and [`quais-polling`](https://www.npmjs.com/package/quais-polling): Javascript SDK for interacting with Quai Network
-- [`quai-hardhat-plugin`](https://www.npmjs.com/package/quai-hardhat-plugin): A plugin that installs the SolidityX compiler for use with Hardhat.
-- [`dotenv`](https://www.npmjs.com/package/dotenv): A zero-dependency module that securely loads environment variables.
+### How do I choose which one to use?
 
-## Run and Deploy
+**Solidity:**
 
-### Install Dependencies
+- **Recommended for developers new to Quai Network**
+- Single chain deployments without cross-chain functionality
+- Easier to use, deploy, and test + compatible with existing Solidity tooling
+- Supports any previously existing Solidity compiler version
+- Can utilize pre-existing Solidity contract libraries like [`@openzeppelin/contracts`](https://www.npmjs.com/package/@openzeppelin/contracts).
+- Recommended for most use cases
 
-1. Clone `hardhat-example`
+**SolidityX:**
 
-```shell
-git clone https://github.com/dominant-strategies/hardhat-example
-```
+- **Recommended for more advanced developers looking to experiment with cross-chain functionality**
+- Enables cross-chain contract deployments
+- Requires a different compiler and additional configuration (can be difficult to set up)
+- Not compatible with pre-existing Solidity contract libraries.
+- Will be forward compatible with [dynamic scaling events](https://qu.ai/docs/learn/advanced-introduction/poem/infinite-execution-shards/dynamic-sharding/)
 
-2. Install package dependencies
+### Start Developing
 
-```shell
-npm i
-```
+To get started with Solidity contract deployments, navigate to the `Solidity` directory and checkout the [Solidity directory README.md](./Solidity/README.md).
 
-### Local SolidityX Compiler
-
-There are two methods of installing the SolidityX compiler for use with Hardhat:
-
-- Install the SolidityX compiler via [`quai-hardhat-plugin`](https://www.npmjs.com/package/quai-hardhat-plugin) (**Recommended**)
-- Install and build the SolidityX compiler from source
-
-#### Installing via Plugin
-
-If you've installed `quai-hardhat-plugin` already, the SolidityX compiler will be installed automatically when you run `npx hardhat compile` for MacOS and Linux users. Windows is not currently supported by the plugin.
-
-#### Installing from Source
-
-**Note:** Building the compiler from source still requires the `quai-hardhat-plugin` to be installed.
-
-Visit the [SolidityX Repository](https://github.com/dominant-strategies/SolidityX) for instructions on how to clone and build the SolidityX compiler for your specific operating system.
-
-Once you've built the SolidityX compiler, you'll need to add path to your `solc` binary into the `customCompilerPath` variable in the `hardhat.config.js` file. The file already includes common paths for MacOS and Linux as comments.
-
-### Environment Config
-
-- Copy `.env.dist` to `.env`.
-
-```shell
-cp .env.dist .env
-```
-
-- Define network variables inside of the `.env` file.
-  - Private Keys
-    - The sample environment file is configured with a **placeholder private key** for each chain.
-    - Replace the placeholder private key for each chain with **your own private key** that corresponds to the address you want to deploy from.
-    - **You cannot use the same private key for each chain.**
-  - Chain ID
-    - Depending on the network you're deploying to, you'll need to set the `CHAINID` variable to the correct chain ID.
-      - <u>Local</u>: `1337`
-      - <u>Testnet</u>: `9000`
-      - <u>Devnet</u>: `12000`
-  - RPC Endpoints
-    - **RPC endpoints are default configured for a local node.**
-    - <u>Local</u>: HTTP ports for each chain's `RPCURL` can be found [here](https://docs.quai.network/node/node-overview#networking-and-conventions).
-    - <u>Remote</u>: hosted RPC endpoints for each chain can be found [here](https://docs.quai.network/develop/networks#testnet).
-
-### Deploying a Simple Contract
-
-1. The `deploy.js` script is configured to deploy the `greeter.sol` contract by default.
-   - Pass the name of the greeter contract into the hardhat runtime contract definition
-   - Pass the initial greeting constructor argument into the deploy command
-2. Compile greeter contract using `npx hardhat compile`
-3. Deploy greeter to a single chain using `npx hardhat run scripts/deploy.js`
-   - This will deploy to the `defaultNetwork` specified in your `hardhat.config.js`
-   - You can specify a network other than the `defaultNetwork` by passing the `--network networkName` flag to the deploy command. Replace `networkName` with one of the options below.
-   - Available `networkName` are:
-     - `cyprus1`
-     - `cyprus2`
-     - `cyprus3`
-     - `paxos1`
-     - `paxos2`
-     - `paxos3`
-     - `hydra1`
-     - `hydra2`
-     - `hydra3`
-
-### Deploying QRC20 or QRC721
-
-The `deployQRC20.js` and `deployQRC721.js` scripts have been included as a simple method of deploying QRC20 and QRC721 contracts to a single chain within Quai Network.
-
-To specify token details (token name, ticker, supply, etc) for either the QRC20 or QRC721 contract, modify the `constructorArgs` object in the deploy script. Then compile the contract via `npx hardhat compile` and deploy via `npx hardhat run scripts/deployQRC20.js` or `npx hardhat run scripts/deployQRC721.js`.
-
-### Hardhat
-
-Hardhat has a number of other useful CLI commands.
-
-```shell
-npx hardhat compile
-npx hardhat clean
-npx hardhat test
-npx hardhat help
-```
-
-## Authors
-
-[Juuddi](https://github.com/Juuddi)
+To get started with SolidityX contract deployments, navigate to the `SolidityX` directory and checkout the [SolidityX directory README.md](./SolidityX/README.md).
