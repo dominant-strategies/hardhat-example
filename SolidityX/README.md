@@ -107,3 +107,17 @@ To deploy to a specific network, pass the `--network networkName` flag to the de
 - `hydra1`
 - `hydra2`
 - `hydra3`
+
+### Verify Contract
+
+After the contract is deployed, you can verify the deployed contract using the command
+
+```shell
+# Verify QRC20
+npx hardhat verify --constructor-args "arguments/argumentQRC20.js" --contract "contracts/QRC20.sol:QRC20" --network paxos2 DEPLOYED_CONTRACT_ADDRESS
+
+# Verify QRC721
+npx hardhat verify --constructor-args "arguments/argumentQRC721.js" --contract "contracts/QR721.sol:QRC721" --network paxos2 DEPLOYED_CONTRACT_ADDRESS
+```
+
+Replace `DEPLOYED_CONTRACT_ADDRESS` with contract address you got from the deployment process.

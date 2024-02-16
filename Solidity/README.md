@@ -86,3 +86,17 @@ To deploy to a specific network, pass the `--network networkName` flag to the de
 - `hydra1`
 - `hydra2`
 - `hydra3`
+
+### Verify Contract
+
+After the contract is deployed, you can verify the deployed contract using the command
+
+```shell
+# Verify ERC20
+npx hardhat verify --constructor-args "arguments/argumentERC20.js" --contract "contracts/ERC20.sol:ERC20" --network paxos2 DEPLOYED_CONTRACT_ADDRESS
+
+# Verify ERC721
+npx hardhat verify --constructor-args "arguments/argumentERC721.js" --contract "contracts/ER721.sol:ERC721" --network paxos2 DEPLOYED_CONTRACT_ADDRESS
+```
+
+Replace `DEPLOYED_CONTRACT_ADDRESS` with contract address you got from the deployment process.
