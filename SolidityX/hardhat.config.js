@@ -4,7 +4,6 @@
 
 require("@nomicfoundation/hardhat-toolbox");
 require("quai-hardhat-plugin");
-require("@nomicfoundation/hardhat-verify");
 const dotenv = require("dotenv");
 dotenv.config({ path: "../.env" });
 

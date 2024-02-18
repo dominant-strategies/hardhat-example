@@ -3,8 +3,6 @@
  */
 
 require("@nomicfoundation/hardhat-toolbox");
-require("quai-hardhat-plugin");
-require("@nomicfoundation/hardhat-verify");
 const dotenv = require("dotenv");
 dotenv.config({ path: "../.env" });
 
@@ -59,7 +57,7 @@ module.exports = {
   },
 
   solidity: {
-    version: "0.8.0",
+    version: "0.8.20",
     settings: {
       optimizer: {
         enabled: true,
