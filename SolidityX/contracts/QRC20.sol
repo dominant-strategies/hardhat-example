@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity ^0.8.0; // Note: You must have a version of SolidityX to compile this contract.
+pragma solidity ^0.8.19; // Note: You must have a version of SolidityX to compile this contract.
 
 /**
  * @dev Implementation of the {IERC20} interface for cross-chain transfers.
