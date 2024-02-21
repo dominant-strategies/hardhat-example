@@ -2,13 +2,13 @@
  * @type import('hardhat/config').HardhatUserConfig
  */
 
-require("@nomicfoundation/hardhat-toolbox");
-require("quai-hardhat-plugin");
-const dotenv = require("dotenv");
-dotenv.config({ path: "../.env" });
+require('@nomicfoundation/hardhat-toolbox')
+require('quai-hardhat-plugin')
+const dotenv = require('dotenv')
+dotenv.config({ path: '../.env' })
 
 module.exports = {
-  defaultNetwork: "cyprus1",
+  defaultNetwork: 'cyprus1',
   networks: {
     cyprus1: {
       url: `${process.env.CYPRUS1URL}`,
@@ -58,7 +58,7 @@ module.exports = {
   },
 
   solidity: {
-    version: "0.8.19",
+    version: '0.8.0',
     settings: {
       optimizer: {
         enabled: true,
@@ -69,98 +69,98 @@ module.exports = {
 
   etherscan: {
     apiKey: {
-      cyprus1: "abc",
-      cyprus2: "abc",
-      cyprus3: "abc",
-      paxos1: "abc",
-      paxos2: "abc",
-      paxos3: "abc",
-      hydra1: "abc",
-      hydra2: "abc",
-      hydra3: "abc",
+      cyprus1: 'abc',
+      cyprus2: 'abc',
+      cyprus3: 'abc',
+      paxos1: 'abc',
+      paxos2: 'abc',
+      paxos3: 'abc',
+      hydra1: 'abc',
+      hydra2: 'abc',
+      hydra3: 'abc',
     },
     customChains: [
       {
-        network: "cyprus1",
+        network: 'cyprus1',
         chainId: Number(process.env.CHAINID),
         urls: {
-          apiURL: "https://cyprus1.colosseum.quaiscan.io/api",
-          browserURL: "https://cyprus1.colosseum.quaiscan.io",
+          apiURL: 'https://cyprus1.colosseum.quaiscan.io/api',
+          browserURL: 'https://cyprus1.colosseum.quaiscan.io',
         },
       },
       {
-        network: "cyprus2",
+        network: 'cyprus2',
         chainId: Number(process.env.CHAINID),
         urls: {
-          apiURL: "https://cyprus2.colosseum.quaiscan.io/api",
-          browserURL: "https://cyprus2.colosseum.quaiscan.io",
+          apiURL: 'https://cyprus2.colosseum.quaiscan.io/api',
+          browserURL: 'https://cyprus2.colosseum.quaiscan.io',
         },
       },
       {
-        network: "cyprus3",
+        network: 'cyprus3',
         chainId: Number(process.env.CHAINID),
         urls: {
-          apiURL: "https://cyprus3.colosseum.quaiscan.io/api",
-          browserURL: "https://cyprus3.colosseum.quaiscan.io",
+          apiURL: 'https://cyprus3.colosseum.quaiscan.io/api',
+          browserURL: 'https://cyprus3.colosseum.quaiscan.io',
         },
       },
       {
-        network: "paxos1",
+        network: 'paxos1',
         chainId: Number(process.env.CHAINID),
         urls: {
-          apiURL: "https://paxos1.colosseum.quaiscan.io/api",
-          browserURL: "https://paxos1.colosseum.quaiscan.io",
+          apiURL: 'https://paxos1.colosseum.quaiscan.io/api',
+          browserURL: 'https://paxos1.colosseum.quaiscan.io',
         },
       },
       {
-        network: "paxos2",
+        network: 'paxos2',
         chainId: Number(process.env.CHAINID),
         urls: {
-          apiURL: "https://paxos2.colosseum.quaiscan.io/api",
-          browserURL: "https://paxos2.colosseum.quaiscan.io",
+          apiURL: 'https://paxos2.colosseum.quaiscan.io/api',
+          browserURL: 'https://paxos2.colosseum.quaiscan.io',
         },
       },
       {
-        network: "paxos3",
+        network: 'paxos3',
         chainId: Number(process.env.CHAINID),
         urls: {
-          apiURL: "https://paxos3.colosseum.quaiscan.io/api",
-          browserURL: "https://paxos3.colosseum.quaiscan.io",
+          apiURL: 'https://paxos3.colosseum.quaiscan.io/api',
+          browserURL: 'https://paxos3.colosseum.quaiscan.io',
         },
       },
       {
-        network: "hydra1",
+        network: 'hydra1',
         chainId: Number(process.env.CHAINID),
         urls: {
-          apiURL: "https://hydra1.colosseum.quaiscan.io/api",
-          browserURL: "https://hydra1.colosseum.quaiscan.io",
+          apiURL: 'https://hydra1.colosseum.quaiscan.io/api',
+          browserURL: 'https://hydra1.colosseum.quaiscan.io',
         },
       },
       {
-        network: "hydra2",
+        network: 'hydra2',
         chainId: Number(process.env.CHAINID),
         urls: {
-          apiURL: "https://hydra2.colosseum.quaiscan.io/api",
-          browserURL: "https://hydra2.colosseum.quaiscan.io",
+          apiURL: 'https://hydra2.colosseum.quaiscan.io/api',
+          browserURL: 'https://hydra2.colosseum.quaiscan.io',
         },
       },
       {
-        network: "hydra3",
+        network: 'hydra3',
         chainId: Number(process.env.CHAINID),
         urls: {
-          apiURL: "https://hydra3.colosseum.quaiscan.io/api",
-          browserURL: "https://hydra3.colosseum.quaiscan.io",
+          apiURL: 'https://hydra3.colosseum.quaiscan.io/api',
+          browserURL: 'https://hydra3.colosseum.quaiscan.io',
         },
       },
     ],
   },
 
   paths: {
-    sources: "./contracts",
-    cache: "./cache",
-    artifacts: "./artifacts",
+    sources: './contracts',
+    cache: './cache',
+    artifacts: './artifacts',
   },
   mocha: {
     timeout: 20000,
   },
-};
+}

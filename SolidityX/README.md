@@ -45,6 +45,8 @@ Once you've built the SolidityX compiler, you'll need move the resultant `solc` 
 
 ### Environment Config
 
+The environment file for network and deploy configuration is located at the root of the `hardhat-example` directory. It serves as the main configuration file for both the `Solidity` and `SolidityX` directories and should be kept at the repository root.
+
 - Copy `../.env.dist` to `../.env`.
 
 ```shell
@@ -58,13 +60,17 @@ cp ../.env.dist ../.env
     - **You cannot use the same private key for each chain.**
   - Chain ID
     - Depending on the network you're deploying to, you'll need to set the `CHAINID` variable to the correct chain ID.
-      - <u>Local</u>: `1337`
+      - Preset to 9000 for testnet deployments.
       - <u>Testnet</u>: `9000`
+      - <u>Local</u>: `1337`
       - <u>Devnet</u>: `12000`
   - RPC Endpoints
-    - **RPC endpoints are default configured for a local node.**
-    - <u>Local</u>: HTTP ports for each chain's `RPCURL` can be found [here](https://docs.quai.network/node/node-overview#networking-and-conventions).
-    - <u>Remote</u>: hosted RPC endpoints for each chain can be found [here](https://docs.quai.network/develop/networks#testnet).
+    - **RPC endpoints are default configured for existing Quai RPC endpoints.**
+    - <u>Remote</u>: hosted RPC endpoints for each chain can be found [here](https://qu.ai/docs/develop/networks/#testnet).
+    - <u>Local</u>: HTTP ports for each chain's `RPCURL` can be found [here](https://qu.ai/docs/develop/networks/#private-networks).
+  - Token Arguments
+    - Constructor arguments passed to the deployment scripts for QRC20 and QRC721 tokens.
+    - Modify the `arguments` directory to specify your token details (token name, ticker, supply, baseURI, etc).
 
 ### Configure and Deploy QRC20 and QRC721 Tokens
 
