@@ -25,7 +25,7 @@
 	},
 	"dependencies": {
 		"ethers": "^6.9.2",
-		"quais6": "file:quais-6.8.1.tgz",
-		"quais": "0.1.17"
+		"quais6": "file:quais6-0.0.1.tgz",
+		"quais": "file:quais-1.0.0.tgz"
 	}
 }
