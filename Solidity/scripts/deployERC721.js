@@ -8,6 +8,7 @@ tokenArgs = {
   name: process.env.ERC721_NAME, // Name of collection
   symbol: process.env.ERC721_SYMBOL, // Collection symbol
   baseURI: process.env.ERC721_BASE_URI, // Base URI for token metadata (make sure to keep the slash at the end)
+  maxTokens: process.env.ERC721_MAX_TOKENS, // Maximum number of tokens that can be minted
 }
 
 async function deployERC721() {
@@ -17,7 +18,7 @@ async function deployERC721() {
   const ERC721 = new quais.ContractFactory(ERC721Json.abi, ERC721Json.bytecode, wallet)
 
   // Broadcast deploy transaction
-  const erc721 = await ERC721.deploy(tokenArgs.name, tokenArgs.symbol, tokenArgs.baseURI, {
+  const erc721 = await ERC721.deploy(tokenArgs.name, tokenArgs.symbol, tokenArgs.baseURI, tokenArgs.maxTokens, {
     gasLimit: 5000000,
   })
   console.log('1 -- Deploy transaction broadcasted: ' + erc721.deployTransaction.hash + '\n2 -- Waiting for transaction to be mined.')
