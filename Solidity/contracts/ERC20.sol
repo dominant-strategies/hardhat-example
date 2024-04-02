@@ -14,7 +14,7 @@ contract TestERC20 is ERC20, Ownable {
   * @param initialSupply Initial supply of the token.
   */
   constructor(string memory name, string memory symbol, uint256 initialSupply) ERC20(name, symbol) Ownable(msg.sender) {
-    _mint(msg.sender, initialSupply * 10 ** decimals());
+    _mint(msg.sender, initialSupply);
   }
 
   /**

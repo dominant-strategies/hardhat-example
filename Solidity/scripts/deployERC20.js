@@ -7,7 +7,7 @@ require('dotenv').config()
 tokenArgs = {
   name: process.env.ERC20_NAME,
   symbol: process.env.ERC20_SYMBOL,
-  initialSupply: process.env.ERC20_INITIALSUPPLY,
+  initialSupply: quais.utils.parseUnits(process.env.ERC20_INITIALSUPPLY),
 }
 
 async function deployERC20() {
@@ -25,7 +25,7 @@ async function deployERC20() {
   // Wait for contract to be deployed (using quais-polling)
   const deployReceipt = await pollFor(provider, 'getTransactionReceipt', [erc20.deployTransaction.hash], 1.5, 1)
   console.log('3 -- Transaction mined. ERC20 deployed to:', deployReceipt.contractAddress)
-  console.log('  -- Gas used:', deployReceipt.cumulativeGasUsed.toString())
+  console.log('Gas used:', deployReceipt.cumulativeGasUsed.toString())
 }
 
 deployERC20()

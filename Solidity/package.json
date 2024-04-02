@@ -1,8 +1,11 @@
 {
 	"dependencies": {
 		"@openzeppelin/contracts": "^5.0.1",
+		"csv-parse": "^5.5.5",
 		"dotenv": "^16.4.3",
+		"fs": "^0.0.1-security",
 		"hardhat": "^2.19.5",
+		"path": "^0.12.7",
 		"quais": "^0.1.17",
 		"quais-polling": "^1.0.4"
 	},
