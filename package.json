@@ -24,8 +24,7 @@
 		"quais-polling": "^1.0.4"
 	},
 	"dependencies": {
-		"ethers": "^6.9.2",
-		"quais6": "file:quais-6.8.1.tgz",
-		"quais": "0.1.17"
+		"@brandonblack/musig": "^0.0.1-alpha.1",
+		"ethers": "^6.9.2"
 	}
 }
