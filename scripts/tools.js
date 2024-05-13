@@ -7,10 +7,10 @@ const { nobleCrypto } = require("quais6");
 
 // Function to create a UTXO
 function createTransaction(chainId, inputs, outputs, address) {
-	const tx = new quais.Transaction(address);
+	const tx = new quais.QiTransaction(address);
 	tx.chainId = chainId; 
-	tx.inputsUTXO = inputs;
-	tx.outputsUTXO = outputs;
+	tx.txInputs = inputs;
+	tx.txOutputs = outputs;
 	return tx;
 }
 

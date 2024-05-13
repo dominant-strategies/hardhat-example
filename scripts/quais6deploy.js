@@ -12,7 +12,7 @@ const constructorArgs = {
 
 async function main() {
 	// Configure quai network provider based on hardhat network config
-	const quaisProvider = new quais.JsonRpcProvider('http://127.0.0.1:9003')
+	const quaisProvider = new quais.JsonRpcProvider('http://127.0.0.1:9100')
 
 
 	// Configure quai wallet based on hardhat network config

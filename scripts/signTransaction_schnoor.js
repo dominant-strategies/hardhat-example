@@ -1,9 +1,5 @@
-//! NOTE: This script is for developement and only works with a modified version of the 'signTransaction' method in the UTXOHDWallet class
-//! In order for this script to work, 'signTransaction' must be modified to return the tx object (instead of the serialized string) 
-
 const quais = require('quais6')
 const { keccak_256 } = require('@noble/hashes/sha3');
-const { mnemonicPhrase, derivationPath, privKey1, privKey2, mockTxHash1, mockTxHash2} = require('./constants.js');
 
 const { createTransaction,
 	getCompressedPublicKey,
@@ -12,8 +8,10 @@ const { createTransaction,
 	hexToUint8Array,
 	getSignatureSerialized,
 	hexlify,
-	verifyMusigSignature,
+	verifySchnorrSignature
 } = require('./tools.js');
+
+const { mnemonicPhrase, derivationPath, privKey1, privKey2, mockTxHash1, mockTxHash2} = require('./constants.js');
 
 
 async function main() {
@@ -26,8 +24,6 @@ async function main() {
 	const pubkey1 = getCompressedPublicKey(privKey1);
 	const pubkey1uncompressed = getUncompressedPublicKey(privKey1);
 	const addr1 = getAddressFromPublicKey(pubkey1uncompressed);
-
-	const pubkey2 = getCompressedPublicKey(privKey2);
 	const pubkey2uncompressed = getUncompressedPublicKey(privKey2);
 	const addr2 = getAddressFromPublicKey(pubkey2uncompressed);
 
@@ -47,54 +43,44 @@ async function main() {
 	const addressOutPoints = {
 		addr1: [
 				{
-					Txhash: mockTxHash1,
-					Index: 0,
-					Denomination: 7,
+						Txhash: mockTxHash1,
+						Index: 0,
+						Denomination: 7,
 				},
-				{
-					Txhash: mockTxHash2,
-					Index: 0,
-					Denomination: 7,
-				}
 		],
 	};
 
+	console.log('Wallet key/addres pairs: ', utxoAddresses);
 	// Manually populate the UTXO addresses and outpoints into the UTXOHDWallet
-	utxoWallet.addressOutpoints = addressOutPoints;
-	utxoWallet.utxoAddresses = utxoAddresses;
-	console.log('Wallet key/addres pairs: ', utxoWallet.utxoAddresses);
+	utxoWallet.shardWalletsMap.set('cyprus1', {addressesInfo: utxoAddresses, outpoints: addressOutPoints})
 	
 	// Define tx inputs, outputs and chainId for the UTXO
 	let txInputs = [
 		{
-			txhash: mockTxHash1,
-			index: 0,
 			// ! NOTE: The pubkey is in uncompressed format. Only this format will result in a valid address
-			pubKey: hexToUint8Array(pubkey1uncompressed),
+			pub_key: hexToUint8Array(pubkey1uncompressed),
+			previous_out_point:
+			{
+				hash: {
+					value: hexToUint8Array(mockTxHash1),
+				},
+				index: 0,
+			},
 		},
-		{
-			txhash: mockTxHash2,
-			index: 0,
-			// ! NOTE: The pubkey is in uncompressed format. Only this format will result in a valid address
-			pubKey: hexToUint8Array(pubkey2uncompressed),
-		},
-		
 	];
 
-	console.log('txInputs:', txInputs)
-
+	console.log('\ntxInputs[0].pubKey: ', hexlify(txInputs[0].pub_key));
 	let txOutputs = [
 		{
-			Address: addr2,
-			Denomination: 7,
+			address: hexToUint8Array(addr2),
+			denomination: 7,
 		},
 	];
 
-	console.log('txOutputs:', txOutputs)
+	console.log('\ntxOutput.address:', hexlify(txOutputs[0].address));
 
-	const chainId = BigInt(969);
-	
 	// Create the UTXO to be signed
+	const chainId = BigInt(969);
 	const utxo = createTransaction(chainId, txInputs, txOutputs, addr1);
 	console.log('utxo tx Serialized:', utxo.unsignedSerialized);
 
@@ -103,21 +89,20 @@ async function main() {
 	console.log('tx hash to sign:', hexlify(txHash));
 	
 	// Sign the tx
-	console.log('Signing UTXO...');
-	const signedUTXO = await utxoWallet.signTransaction(utxo);
+	console.log('Signing tx...');
+	const signedTx = await utxoWallet.signTransaction(utxo);
 
-	// Get the signature from the signed UTXO
-	console.log("Getting the signature...")
-	console.log('Signature: ', signedUTXO.signature);
-	const signatureSerialzed = getSignatureSerialized(signedUTXO.signature);
+	console.log('Unmarshalling signed tx...')
+	const signedTxUnmarshalled = quais.QiTransaction.from(signedTx);
+	console.log('Signed tx:', signedTxUnmarshalled);
+
+	// Get the signature from the signed tx
+	const signatureSerialzed = signedTxUnmarshalled.signature;
 
 	// Verify the transaction passing the signature, txHash and public key (in compressed format)
-	console.log('Verifying transaction musig signature...');
-	
-	const verified = verifyMusigSignature(signatureSerialzed, txHash, [hexToUint8Array(pubkey1), hexToUint8Array(pubkey2)]);
+	console.log('Verifying transaction Schnorr signature...');
+	const verified = verifySchnorrSignature(signatureSerialzed, txHash, pubkey1);
 	console.log('Verified:', verified);
-
-	return;
 
 }
 
