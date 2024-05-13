@@ -1,5 +1,5 @@
 const hre = require('hardhat')
-const quais = require('quais')
+const quais = require('quais6')
 const { pollFor } = require('quais-polling')
 const GreeterJson = require('../artifacts/contracts/Greeter.sol/Greeter.json')
 
@@ -10,7 +10,7 @@ constructorArgs = {
 
 async function main() {
 	// Configure quai network provider based on hardhat network config
-	const quaisProvider = new quais.providers.JsonRpcProvider(hre.network.config.url)
+	const quaisProvider = new quais.JsonRpcProvider(hre.network.config.url)
 
 	// Configure quai wallet based on hardhat network config
 	const walletWithProvider = new quais.Wallet(hre.network.config.accounts[0], quaisProvider)

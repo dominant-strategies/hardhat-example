@@ -13,19 +13,22 @@ async function main() {
 	// connect wallet to provider
 	const utxoConnectedWallet = utxoWallet.connect(quaisProvider);
 
-	// Ensure provider is ready
-	await quaisProvider.ready;
+	console.log('\nInitializing wallet...');
+	await utxoConnectedWallet.init('cyprus1');
+	
+	const shardWallets = utxoConnectedWallet.shardWalletsMap;
 
-	await utxoConnectedWallet.syncUTXOs('cyprus1', 5);
+	let addrData = shardWallets.get('cyprus1').addressesInfo;
 
-	let addresses = utxoConnectedWallet.utxoAddresses;
+	console.log('\nQi addresses: ');
+	for (let i = 0; i < addrData.length; i++) {
+		console.log(`Address[${i}]: ${addrData[i].address}`);
+	}
 
-	console.log('utxo addresses: ', addresses);
-
-	let outpoints = utxoConnectedWallet.addressOutpoints;
+	let outpoints = shardWallets.get('cyprus1').outpoints;
 
 	// get the outpoint for the first address
-	let [[firstAddress, firstAddressOutpoints]] = Object.entries(outpoints);
+	let [[firstAddress, firstAddressOutpoints]] = Array.from(outpoints);
 
 	console.log('First Address:', firstAddress);
 	console.log('Total Outpoints for First Address:', firstAddressOutpoints.length);
@@ -33,7 +36,6 @@ async function main() {
 	const denominations = [0.001, 0.005, 0.01, 0.05, 0.1, 0.25, 0.5, 1, 5, 10, 20, 50, 100, 1000, 10000, 100000, 1000000];
 	const totalValue = firstAddressOutpoints.reduce((acc, {TxHash, Index, Denomination}) => {
 		const value = BigInt(denominations[Denomination]);
-		// console.log('TxHash:', TxHash, 'Index:', Index, 'Denomination:', denominations[Denomination], " value:", value);
 		return acc + value;
 	    }, BigInt(0));
 	    
