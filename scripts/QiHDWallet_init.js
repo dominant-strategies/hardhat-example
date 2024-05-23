@@ -8,15 +8,15 @@ async function main() {
 	const mnemonicPhrase = "empower cook violin million wool twelve involve nice donate author mammal salt royal shiver birth olympic embody hello beef suit isolate mixed text spot";
 	const mnemonic = quais.Mnemonic.fromPhrase(mnemonicPhrase);
 	const derivationPath = "m/44'/969'/0'/0";
-	const utxoWallet = quais.UTXOHDWallet.fromMnemonic(mnemonic, derivationPath);
+	const qiWallet = quais.QiHDWallet.fromMnemonic(mnemonic, derivationPath);
 
 	// connect wallet to provider
-	const utxoConnectedWallet = utxoWallet.connect(quaisProvider);
+	const connectedQiWallet = qiWallet.connect(quaisProvider);
 
 	console.log('\nInitializing wallet...');
-	await utxoConnectedWallet.init('cyprus1');
+	await connectedQiWallet.init('cyprus1');
 	
-	const shardWallets = utxoConnectedWallet.shardWalletsMap;
+	const shardWallets = connectedQiWallet.shardWalletsMap;
 
 	let addrData = shardWallets.get('cyprus1').addressesInfo;
 

@@ -17,7 +17,10 @@ async function main() {
 	
 	// Create the UTXO wallet
 	const mnemonic = quais.Mnemonic.fromPhrase(mnemonicPhrase);
-	const utxoWallet = quais.UTXOHDWallet.fromMnemonic(mnemonic, derivationPath);
+	const qiWallet = quais.QiHDWallet.fromMnemonic(mnemonic, derivationPath);
+
+	// print the name of the class of qiWallet
+	console.log('Class of qiWallet:', qiWallet.constructor.name);
 
 	// Get the compressed public key, uncompressed public key and address for the two private keys
 	const pubkey1 = getCompressedPublicKey(privKey1);
@@ -58,7 +61,7 @@ async function main() {
 
 	console.log('Wallet key/addres pairs: ', utxoAddresses);
 	// Manually populate the UTXO addresses and outpoints into the UTXOHDWallet
-	utxoWallet.shardWalletsMap.set('cyprus1', {addressesInfo: utxoAddresses, outpoints: addressOutPoints})
+	qiWallet.shardWalletsMap.set('cyprus1', {addressesInfo: utxoAddresses, outpoints: addressOutPoints})
 	
 	// Define tx inputs, outputs and chainId for the UTXO
 	let txInputs = [
@@ -108,7 +111,7 @@ async function main() {
 	
 	// Sign the tx
 	console.log('Signing tx...');
-	const signedTx = await utxoWallet.signTransaction(utxo);
+	const signedTx = await qiWallet.signTransaction(utxo);
 
 	console.log('Unmarshalling signed tx...')
 	const signedTxUnmarshalled = quais.QiTransaction.from(signedTx);
