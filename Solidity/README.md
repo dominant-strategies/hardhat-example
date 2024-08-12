@@ -7,8 +7,9 @@ The `Solidity` folder of `hardhat-example` provides an example hardhat configura
 - [Hardhat](https://www.npmjs.com/package/hardhat): Development toolkit
 - [Nodejs](https://nodejs.org/en/): Javascript runtime engine
 - [`@nomicfoundation/hardhat-toolbox`](https://www.npmjs.com/package/@nomicfoundation/hardhat-toolbox): Hardhat utils
-- [`quais`](https://www.npmjs.com/package/quais) and [`quais-polling`](https://www.npmjs.com/package/quais-polling): Javascript SDK for interacting with Quai Network
+- [`quais`](https://www.npmjs.com/package/quais): Javascript SDK for interacting with Quai Network
 - [`dotenv`](https://www.npmjs.com/package/dotenv): A zero-dependency module that securely loads environment variables.
+- [`@openzeppelin/contracts`](https://www.npmjs.com/package/@openzeppelin/contracts): Smart contract library
 
 ## Run and Deploy
 
@@ -42,11 +43,9 @@ cp ../.env.dist ../.env
       - **Preset to 9000 for testnet deployments.**
       - <u>Testnet</u>: `9000`
       - <u>Local</u>: `1337`
-      - <u>Devnet</u>: `12000`
   - RPC Endpoints
     - **RPC endpoints are default configured for existing Quai RPC endpoints.**
-    - <u>Remote</u>: hosted RPC endpoints for each chain can be found [here](https://qu.ai/docs/develop/networks/#testnet).
-    - <u>Local</u>: HTTP ports for each chain's `RPCURL` can be found [here](https://qu.ai/docs/develop/networks/#private-networks).
+    - Information for local and remote hosted RPC endpoints for each chain can be found [here](https://docs.qu.ai/build/networks).
   - Token Arguments
     - Constructor arguments passed to the deployment scripts for ERC20 and ERC721 tokens.
     - Modify the `arguments` directory to specify your token details (token name, ticker, supply, baseURI, etc).
@@ -55,13 +54,26 @@ cp ../.env.dist ../.env
 
 This repo has two pre-configured deployment scripts: `deployERC20.js` and `deployERC721.js`. These scripts will grab your deployment configurations in tandem with a network flag passed to the deploy command to automatically deploy your ERC20 or ERC721 contract to the network of your choice.
 
-#### ERC20 configuration
+#### ERC20 Configuration
 
-Open the `deployERC20.js` file and modify the `constructorArgs` object to specify the token details (token name, ticker, supply, etc). Then compile the contract via `npx hardhat compile` and deploy via `npx hardhat run scripts/deployERC20.js`.
+The `deployERC20.js` file pulls contract configurations from your `.env` file at the root of the repository. To modify your arguments passed to the contract constructor, open the `.env` file and find the `ERC20` section. Any changes you make to the `.env` file will be reflected in the `deployERC20.js` file.
 
-#### ERC721 configuration
+```env
+ERC20_NAME=""
+ERC20_SYMBOL=""
+ERC20_INITIAL_SUPPLY=
+```
 
-Open the `deployERC721.js` file and modify the `constructorArgs` object to specify the token details (token name, ticker, baseURI, etc). Then compile the contract via `npx hardhat compile` and deploy via `npx hardhat run scripts/deployERC721.js`.
+#### ERC721 Configuration
+
+The `deployERC721.js` file pulls contract configurations from your `.env` file at the root of the repository. To modify your arguments passed to the contract constructor, open the `.env` file and find the `ERC721` section. Any changes you make to the `.env` file will be reflected in the `deployERC721.js` file.
+
+```env
+ERC721_NAME=""
+ERC721_SYMBOL=""
+ERC721_BASE_URI=""
+ERC721_MAX_TOKENS=
+```
 
 ### Deploy
 
@@ -94,6 +106,8 @@ To deploy to a specific network, pass the `--network networkName` flag to the de
 - `hydra3`
 
 ### Verify Contract
+
+**Contract verification via hardhat is still under development. These commands may not work as expected.**
 
 After the contract is deployed, you can verify the deployed contract using the command
 
