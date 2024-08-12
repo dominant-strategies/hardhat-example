@@ -8,7 +8,7 @@ The `SolidityX` folder of `hardhat-example` provides an example hardhat configur
 - [SolidityX](https://github.com/dominant-strategies/SolidityX): A fork of the Solidity compiler that supports Quai Network's QRC20 and QRC721 token standards
 - [Nodejs](https://nodejs.org/en/): Javascript runtime engine
 - [`@nomicfoundation/hardhat-toolbox`](https://www.npmjs.com/package/@nomicfoundation/hardhat-toolbox): Hardhat utils
-- [`quais`](https://www.npmjs.com/package/quais) and [`quais-polling`](https://www.npmjs.com/package/quais-polling): Javascript SDK for interacting with Quai Network
+- [`quais`](https://www.npmjs.com/package/quais): Javascript SDK for interacting with Quai Network
 - [`quai-hardhat-plugin`](https://www.npmjs.com/package/quai-hardhat-plugin): A plugin that installs the SolidityX compiler for use with Hardhat.
 - [`dotenv`](https://www.npmjs.com/package/dotenv): A zero-dependency module that securely loads environment variables.
 
@@ -63,11 +63,9 @@ cp ../.env.dist ../.env
       - Preset to 9000 for testnet deployments.
       - <u>Testnet</u>: `9000`
       - <u>Local</u>: `1337`
-      - <u>Devnet</u>: `12000`
   - RPC Endpoints
     - **RPC endpoints are default configured for existing Quai RPC endpoints.**
-    - <u>Remote</u>: hosted RPC endpoints for each chain can be found [here](https://qu.ai/docs/develop/networks/#testnet).
-    - <u>Local</u>: HTTP ports for each chain's `RPCURL` can be found [here](https://qu.ai/docs/develop/networks/#private-networks).
+    - Information for local and remote hosted RPC endpoints for each chain can be found [here](https://docs.qu.ai/build/networks).
   - Token Arguments
     - Constructor arguments passed to the deployment scripts for QRC20 and QRC721 tokens.
     - Modify the `arguments` directory to specify your token details (token name, ticker, supply, baseURI, etc).
@@ -78,11 +76,23 @@ This repo has two pre-configured deployment scripts: `deployQRC20.js` and `deplo
 
 #### QRC20 configuration
 
-Open the `deployQRC20.js` file and modify the `constructorArgs` object to specify the token details (token name, ticker, supply, etc). Then compile the contract via `npx hardhat compile` and deploy via `npx hardhat run scripts/deployQRC20.js`.
+The `deployQRC20.js` file pulls contract configurations from your `.env` file at the root of the repository. To modify your arguments passed to the contract constructor, open the `.env` file and find the `QRC20` section. Any changes you make to the `.env` file will be reflected in the `deployQRC20.js` file.
+
+```env
+QRC20_NAME=""
+QRC20_SYMBOL=""
+QRC20_INITIALSUPPLY=
+```
 
 #### QRC721 configuration
 
-Open the `deployQRC721.js` file and modify the `constructorArgs` object to specify the token details (token name, ticker, baseURI, etc). Then compile the contract via `npx hardhat compile` and deploy via `npx hardhat run scripts/deployQRC721.js`.
+The `deployQRC721.js` file pulls contract configurations from your `.env` file at the root of the repository. To modify your arguments passed to the contract constructor, open the `.env` file and find the `QRC721` section. Any changes you make to the `.env` file will be reflected in the `deployQRC721.js` file.
+
+```env
+QRC721_NAME=""
+QRC721_SYMBOL=""
+QRC721_BASE_URI=""
+```
 
 ### Deploy
 
@@ -115,6 +125,8 @@ To deploy to a specific network, pass the `--network networkName` flag to the de
 - `hydra3`
 
 ### Verify Contract
+
+**Contract verification via hardhat is still under development. These commands may not work as expected.**
 
 After the contract is deployed, you can verify the deployed contract using the command
 

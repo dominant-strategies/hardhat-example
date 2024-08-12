@@ -4,7 +4,7 @@
 
 ### Solidity vs. SolidityX
 
-You can deploy smart contracts to Quai Network using either regular Solidity or the Quai Network specific SolidityX. The primary difference between the two is that SolidityX supports additional [cross-chain features](https://qu.ai/docs/develop/smart-contracts/opcode-additions/). You can read more about the differences between Solidity and SolidityX [here](https://qu.ai/docs/develop/smart-contracts/languages/).
+You can deploy smart contracts to Quai Network using either regular Solidity or the Quai Network specific SolidityX. The primary difference between the two is that SolidityX supports additional [cross-chain features](https://docs.qu.ai/build/smart-contracts/opcode-additions). You can read more about the differences between Solidity and SolidityX [here](https://docs.qu.ai/build/smart-contracts/languages/overview).
 
 ### How do I choose which one to use?
 
@@ -21,9 +21,9 @@ You can deploy smart contracts to Quai Network using either regular Solidity or 
 
 - **Recommended for more advanced developers looking to experiment with cross-chain functionality**
 - Enables cross-chain contract deployments
-- Requires a different compiler and additional configuration (can be difficult to set up)
+- Requires a different compiler and additional configuration (more difficult to configure)
 - Not compatible with pre-existing Solidity contract libraries.
-- Will be forward compatible with [dynamic scaling events](https://qu.ai/docs/learn/advanced-introduction/poem/infinite-execution-shards/dynamic-sharding/)
+- Will be forward compatible with [dynamic scaling events](https://docs.qu.ai/learn/advanced-introduction/poem/infinite-execution-shards/dynamic-sharding)
 
 ### Start Developing
 
