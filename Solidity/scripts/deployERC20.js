@@ -4,10 +4,12 @@ require('dotenv').config()
 
 // Pull contract arguments from .env
 const tokenArgs = [process.env.ERC20_NAME, process.env.ERC20_SYMBOL, quais.parseUnits(process.env.ERC20_INITIALSUPPLY)]
+console.log(tokenArgs)
+console.log(hre.network.config.url)
 
 async function deployERC20() {
   // Config provider, wallet, and contract factory
-  const provider = new quais.JsonRpcProvider(hre.network.config.url)
+  const provider = new quais.JsonRpcProvider(hre.network.config.url, null, { usePathing: true })
   const wallet = new quais.Wallet(hre.network.config.accounts[0], provider)
   const ERC20 = new quais.ContractFactory(ERC20Json.abi, ERC20Json.bytecode, wallet)
 

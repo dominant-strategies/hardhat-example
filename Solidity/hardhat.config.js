@@ -6,53 +6,56 @@ require('@nomicfoundation/hardhat-toolbox')
 const dotenv = require('dotenv')
 dotenv.config({ path: '../.env' })
 
+const rpcUrl = process.env.RPCURL
+const chainId = Number(process.env.CHAINID)
+
 module.exports = {
   defaultNetwork: 'cyprus1',
   networks: {
     cyprus1: {
-      url: `${process.env.CYPRUS1URL}`,
+      url: rpcUrl,
       accounts: [process.env.CYPRUS1PK],
-      chainId: Number(process.env.CHAINID),
+      chainId: chainId,
     },
     cyprus2: {
-      url: `${process.env.CYPRUS2URL}`,
+      url: rpcUrl,
       accounts: [process.env.CYPRUS2PK],
-      chainId: Number(process.env.CHAINID),
+      chainId: chainId,
     },
     cyprus3: {
-      url: `${process.env.CYPRUS3URL}`,
+      url: rpcUrl,
       accounts: [process.env.CYPRUS3PK],
-      chainId: Number(process.env.CHAINID),
+      chainId: chainId,
     },
     paxos1: {
-      url: `${process.env.PAXOS1URL}`,
+      url: rpcUrl,
       accounts: [process.env.PAXOS1PK],
-      chainId: Number(process.env.CHAINID),
+      chainId: chainId,
     },
     paxos2: {
-      url: `${process.env.PAXOS2URL}`,
+      url: rpcUrl,
       accounts: [process.env.PAXOS2PK],
-      chainId: Number(process.env.CHAINID),
+      chainId: chainId,
     },
     paxos3: {
-      url: `${process.env.PAXOS3URL}`,
+      url: rpcUrl,
       accounts: [process.env.PAXOS3PK],
-      chainId: Number(process.env.CHAINID),
+      chainId: chainId,
     },
     hydra1: {
-      url: `${process.env.HYDRA1URL}`,
+      url: rpcUrl,
       accounts: [process.env.HYDRA1PK],
-      chainId: Number(process.env.CHAINID),
+      chainId: chainId,
     },
     hydra2: {
-      url: `${process.env.HYDRA2URL}`,
+      url: rpcUrl,
       accounts: [process.env.HYDRA2PK],
-      chainId: Number(process.env.CHAINID),
+      chainId: chainId,
     },
     hydra3: {
-      url: `${process.env.HYDRA3URL}`,
+      url: rpcUrl,
       accounts: [process.env.HYDRA3PK],
-      chainId: Number(process.env.CHAINID),
+      chainId: chainId,
     },
   },
 
