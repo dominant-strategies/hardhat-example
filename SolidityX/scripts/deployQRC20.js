@@ -7,7 +7,7 @@ const tokenArgs = [process.env.QRC20_NAME, process.env.QRC20_SYMBOL, process.env
 
 async function deployQRC20() {
   // Config provider, wallet, and contract factory
-  const provider = new quais.JsonRpcProvider(hre.network.config.url)
+  const provider = new quais.JsonRpcProvider(hre.network.config.url, null, { usePathing: true })
   const wallet = new quais.Wallet(hre.network.config.accounts[0], provider)
   const QRC20 = new quais.ContractFactory(QRC20Json.abi, QRC20Json.bytecode, wallet)
 

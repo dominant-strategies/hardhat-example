@@ -7,7 +7,7 @@ const tokenArgs = [process.env.ERC721_NAME, process.env.ERC721_SYMBOL, process.e
 
 async function deployERC721() {
   // Config provider, wallet, and contract factory
-  const provider = new quais.JsonRpcProvider(hre.network.config.url)
+  const provider = new quais.JsonRpcProvider(hre.network.config.url, null, { usePathing: true })
   const wallet = new quais.Wallet(hre.network.config.accounts[0], provider)
   const ERC721 = new quais.ContractFactory(ERC721Json.abi, ERC721Json.bytecode, wallet)
 
