@@ -1,7 +1,6 @@
 const quais = require('quais')
-require('dotenv').config()
 
-async function getAddressData() {
+async function getChainData() {
   // Config provider
   const provider = new quais.JsonRpcProvider(hre.network.config.url, null, { usePathing: true })
 
@@ -15,7 +14,7 @@ async function getAddressData() {
   console.log('Current Protocol Expansion Number: ', protocolExpansionNumber)
 }
 
-getAddressData()
+getChainData()
   .then(() => process.exit(0))
   .catch((error) => {
     console.error(error)

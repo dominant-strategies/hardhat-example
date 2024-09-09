@@ -1,5 +1,4 @@
 const quais = require('quais')
-require('dotenv').config()
 
 async function configureProviders() {
   /**
@@ -9,7 +8,7 @@ async function configureProviders() {
    *
    * See: https://docs.qu.ai/build/networks#networking-information
    */
-  const portProvider = new quais.JsonRpcProvider('http://rpc.sandbox.quai.network')
+  const jsonProviderUsingPorts = new quais.JsonRpcProvider('http://rpc.sandbox.quai.network')
 
   /**
    * Configure provider using pathing RPC endpoint with https
@@ -18,7 +17,7 @@ async function configureProviders() {
    *
    * See: https://docs.qu.ai/build/networks#explorer-urls-and-rpc-endpoints
    */
-  const pathProvider = new quais.JsonRpcProvider('https://rpc.dev.quai.network', null, { usePathing: true })
+  const jsonProviderUsingPathing = new quais.JsonRpcProvider('https://rpc.dev.quai.network', null, { usePathing: true })
 
   /**
    * Configure provider using pathing RPC endpoint with wss
@@ -27,12 +26,12 @@ async function configureProviders() {
    *
    * See: https://docs.qu.ai/build/networks#explorer-urls-and-rpc-endpoints
    */
-  const webSocketProvider = new quais.WebSocketProvider('wss://rpc.dev.quai.network', null, { usePathing: true })
+  const wsProviderUsingPathing = new quais.WebSocketProvider('wss://rpc.dev.quai.network', null, { usePathing: true })
 
   // get some sample data from each provider
-  const blockNumber = await portProvider.getBlockNumber(quais.Shard.Cyprus1)
-  const block = await pathProvider.getBlock(quais.Shard.Cyprus1, blockNumber, false)
-  const feeData = await webSocketProvider.getFeeData(quais.Shard.Cyprus1)
+  const blockNumber = await jsonProviderUsingPorts.getBlockNumber(quais.Shard.Cyprus1)
+  const block = await jsonProviderUsingPathing.getBlock(quais.Shard.Cyprus1, blockNumber, false)
+  const feeData = await wsProviderUsingPathing.getFeeData(quais.Shard.Cyprus1)
 
   console.log('Block Number: ', blockNumber)
   console.log('Block: ', block)
