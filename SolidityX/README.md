@@ -60,12 +60,12 @@ cp ../.env.dist ../.env
     - **You cannot use the same private key for each chain.**
   - Chain ID
     - Depending on the network you're deploying to, you'll need to set the `CHAINID` variable to the correct chain ID.
-      - Preset to 9000 for testnet deployments.
-      - <u>Testnet</u>: `9000`
+      - Preset to 9000 for testnet and devnet deployments.
+      - <u>Testnet and Devnet</u>: `9000`
       - <u>Local</u>: `1337`
   - RPC Endpoints
-    - **RPC endpoints are default configured for existing Quai RPC endpoints.**
-    - Information for local and remote hosted RPC endpoints for each chain can be found [here](https://docs.qu.ai/build/networks).
+    - **The RPCURL variable defaults to the hosted Quai Network RPC endpoint.**
+    - Information for configuring RPC connections via Quais SDK providers can be found [here](https://docs.qu.ai/sdk/static/provider#remote-node-provider).
   - Token Arguments
     - Constructor arguments passed to the deployment scripts for QRC20 and QRC721 tokens.
     - Modify the `arguments` directory to specify your token details (token name, ticker, supply, baseURI, etc).
