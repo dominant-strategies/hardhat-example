@@ -12,7 +12,7 @@ async function deployERC20() {
   const ERC20 = new quais.ContractFactory(ERC20Json.abi, ERC20Json.bytecode, wallet)
 
   // Broadcast deploy transaction
-  const erc20 = await ERC20.deploy(...tokenArgs) 
+  const erc20 = await ERC20.deploy(...tokenArgs)
   console.log('Transaction broadcasted: ', erc20.deploymentTransaction().hash)
 
   // Wait for contract to be deployed
