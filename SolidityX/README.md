@@ -64,7 +64,7 @@ cp ../.env.dist ../.env
       - <u>Testnet and Devnet</u>: `9000`
       - <u>Local</u>: `1337`
   - RPC Endpoints
-    - **The RPCURL variable defaults to the hosted Quai Network RPC endpoint.**
+    - **The RPC_URL variable defaults to the hosted Quai Network RPC URL.**
     - Information for configuring RPC connections via Quais SDK providers can be found [here](https://docs.qu.ai/sdk/static/provider#remote-node-provider).
   - Token Arguments
     - Constructor arguments passed to the deployment scripts for QRC20 and QRC721 tokens.

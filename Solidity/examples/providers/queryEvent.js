@@ -1,7 +1,6 @@
 const quais = require('quais')
-require('dotenv').config()
 
-async function getAddressData() {
+async function queryEvent() {
   // Config provider
   const provider = new quais.JsonRpcProvider(hre.network.config.url, null, { usePathing: true })
 
@@ -19,7 +18,7 @@ async function getAddressData() {
   console.log(`\nEvents: ${JSON.stringify(events)}\n`)
 }
 
-getAddressData()
+queryEvent()
   .then(() => process.exit(0))
   .catch((error) => {
     console.error(error)

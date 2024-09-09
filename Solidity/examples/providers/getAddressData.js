@@ -1,5 +1,4 @@
 const quais = require('quais')
-require('dotenv').config()
 
 const contractAddress = '0x002F4783248e2D6FF1aa6482A8C0D7a76de3C329'
 

@@ -1,7 +1,6 @@
 const quais = require('quais')
-require('dotenv').config()
 
-async function getAddressData() {
+async function sendQuaiTransaction() {
   // Config provider, wallet
   const provider = new quais.JsonRpcProvider(hre.network.config.url, null, { usePathing: true })
   const wallet = new quais.Wallet(hre.network.config.accounts[0], provider)
@@ -23,7 +22,7 @@ async function getAddressData() {
   console.log('Transaction mined: ', receipt)
 }
 
-getAddressData()
+sendQuaiTransaction()
   .then(() => process.exit(0))
   .catch((error) => {
     console.error(error)

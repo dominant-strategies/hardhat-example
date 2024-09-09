@@ -4,8 +4,6 @@ require('dotenv').config()
 
 // Pull contract arguments from .env
 const tokenArgs = [process.env.ERC20_NAME, process.env.ERC20_SYMBOL, quais.parseUnits(process.env.ERC20_INITIALSUPPLY)]
-console.log(tokenArgs)
-console.log(hre.network.config.url)
 
 async function deployERC20() {
   // Config provider, wallet, and contract factory
