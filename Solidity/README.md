@@ -86,24 +86,17 @@ npx hardhat compile
 Depending on the contract you want to deploy, run the respective deployment script:
 
 ```shell
-# Deploy ERC20 to paxos1
-npx hardhat run scripts/deployERC20.js --network paxos1
+# Deploy ERC20 to cyprus1
+npx hardhat run scripts/deployERC20.js --network cyprus1
 
-# Deploy ERC721 to hydra2
-npx hardhat run scripts/deployERC721.js --network hydra2
+# Deploy ERC721 to cyprus2
+npx hardhat run scripts/deployERC721.js --network cyprus2
 ```
 
 To deploy to a specific network, pass the `--network networkName` flag to the deploy command. Replace `networkName` with one of the options below. If you don't pass a network flag, the contract will be deployed to the `defaultNetwork` specified in your `hardhat.config.js`.
 
 - `cyprus1`
 - `cyprus2`
-- `cyprus3`
-- `paxos1`
-- `paxos2`
-- `paxos3`
-- `hydra1`
-- `hydra2`
-- `hydra3`
 
 ### Verify Contract
 
@@ -113,10 +106,10 @@ After the contract is deployed, you can verify the deployed contract using the c
 
 ```shell
 # Verify ERC20
-npx hardhat verify --constructor-args "arguments/argumentERC20.js" --contract "contracts/ERC20.sol:ERC20" --network paxos2 DEPLOYED_CONTRACT_ADDRESS
+npx hardhat verify --constructor-args "arguments/argumentERC20.js" --contract "contracts/ERC20.sol:ERC20" --network cyprus1 DEPLOYED_CONTRACT_ADDRESS
 
 # Verify ERC721
-npx hardhat verify --constructor-args "arguments/argumentERC721.js" --contract "contracts/ER721.sol:ERC721" --network paxos2 DEPLOYED_CONTRACT_ADDRESS
+npx hardhat verify --constructor-args "arguments/argumentERC721.js" --contract "contracts/ER721.sol:ERC721" --network cyprus1 DEPLOYED_CONTRACT_ADDRESS
 ```
 
 Replace `DEPLOYED_CONTRACT_ADDRESS` with contract address you got from the deployment process.

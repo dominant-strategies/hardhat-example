@@ -23,41 +23,6 @@ module.exports = {
       accounts: [process.env.CYPRUS2_PK],
       chainId: chainId,
     },
-    cyprus3: {
-      url: rpcUrl,
-      accounts: [process.env.CYPRUS3_PK],
-      chainId: chainId,
-    },
-    paxos1: {
-      url: rpcUrl,
-      accounts: [process.env.PAXOS1_PK],
-      chainId: chainId,
-    },
-    paxos2: {
-      url: rpcUrl,
-      accounts: [process.env.PAXOS2_PK],
-      chainId: chainId,
-    },
-    paxos3: {
-      url: rpcUrl,
-      accounts: [process.env.PAXOS3_PK],
-      chainId: chainId,
-    },
-    hydra1: {
-      url: rpcUrl,
-      accounts: [process.env.HYDRA1_PK],
-      chainId: chainId,
-    },
-    hydra2: {
-      url: rpcUrl,
-      accounts: [process.env.HYDRA2_PK],
-      chainId: chainId,
-    },
-    hydra3: {
-      url: rpcUrl,
-      accounts: [process.env.HYDRA3_PK],
-      chainId: chainId,
-    },
   },
 
   solidity: {
