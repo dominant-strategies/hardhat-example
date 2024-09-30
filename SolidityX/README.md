@@ -105,24 +105,17 @@ npx hardhat compile
 Depending on the contract you want to deploy, run the respective deployment script:
 
 ```shell
-# Deploy QRC20 to paxos2
-npx hardhat run scripts/deployQRC20.js --network paxos2
+# Deploy QRC20 to cyprus1
+npx hardhat run scripts/deployQRC20.js --network cyprus1
 
-# Deploy QRC721 to hydra1
-npx hardhat run scripts/deployQRC721.js --network hydra1
+# Deploy QRC721 to cyprus1
+npx hardhat run scripts/deployQRC721.js --network cyprus1
 ```
 
 To deploy to a specific network, pass the `--network networkName` flag to the deploy command. Replace `networkName` with one of the options below. If you don't pass a network flag, the contract will be deployed to the `defaultNetwork` specified in your `hardhat.config.js`.
 
 - `cyprus1`
 - `cyprus2`
-- `cyprus3`
-- `paxos1`
-- `paxos2`
-- `paxos3`
-- `hydra1`
-- `hydra2`
-- `hydra3`
 
 ### Verify Contract
 
@@ -132,10 +125,10 @@ After the contract is deployed, you can verify the deployed contract using the c
 
 ```shell
 # Verify QRC20
-npx hardhat verify --constructor-args "arguments/argumentQRC20.js" --contract "contracts/QRC20.sol:QRC20" --network paxos2 DEPLOYED_CONTRACT_ADDRESS
+npx hardhat verify --constructor-args "arguments/argumentQRC20.js" --contract "contracts/QRC20.sol:QRC20" --network cyprus1 DEPLOYED_CONTRACT_ADDRESS
 
 # Verify QRC721
-npx hardhat verify --constructor-args "arguments/argumentQRC721.js" --contract "contracts/QR721.sol:QRC721" --network paxos2 DEPLOYED_CONTRACT_ADDRESS
+npx hardhat verify --constructor-args "arguments/argumentQRC721.js" --contract "contracts/QR721.sol:QRC721" --network cyprus1 DEPLOYED_CONTRACT_ADDRESS
 ```
 
 Replace `DEPLOYED_CONTRACT_ADDRESS` with contract address you got from the deployment process.
