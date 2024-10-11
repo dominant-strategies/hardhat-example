@@ -11,7 +11,7 @@ interface IERC721Errors {
      * @dev Indicates that an address can't be an owner. For example, `address(0)` is a forbidden owner in EIP-20.
      * Used in balance queries.
      * @param owner Address of the current owner of a token.
-    */
+     */
     error ERC721InvalidOwner(address owner);
 
     /**
@@ -87,7 +87,8 @@ interface IERC721Receiver {
  * @dev Implementation of https://eips.ethereum.org/EIPS/eip-721[ERC721] Non-Fungible Token Standard, including
  * the Metadata extension, but not including the Enumerable extension, which is available separately as
  * {ERC721Enumerable}.
- * This implementation supports cross-chain transfers.
+ * This implementation supports cross-chain transfers. NOTE: Each tokenId must be unique across all chains.
+ * This means you MUST NOT mint the same tokenId on multiple chains. TokenIds 0-8 are reserved for the deployer on each respective chain.
  */
 contract QRC721 is IERC721Errors {
 
@@ -97,22 +98,13 @@ contract QRC721 is IERC721Errors {
     // Token symbol
     string private _symbol;
 
-    // Base URI
-    string private baseURI;
-
     address private _deployer;
 
     // List of external token contracts that can send tokens to users on this chain
     address[12] public ApprovedAddresses;
     
-    // Address prefix range
-    struct Range {
-        uint8 low;
-        uint8 high;
-    }
-
-    // List of address prefix ranges (for checking which chain an address belongs to)
-    Range[13] public Ranges;
+    mapping(uint8 => uint8) public PrefixToLocation;
+    mapping(uint8 => bool) public ValidPrefixes;
 
     mapping(uint256 /*tokenId*/ => address) private _owners;
 
@@ -142,21 +134,30 @@ contract QRC721 is IERC721Errors {
     /**
      * @dev Initializes the contract by setting a `name` and a `symbol` to the token collection.
      */
-    constructor(string memory name_, string memory symbol_, string memory baseURI_) {
-        _name = name_;
-        _symbol = symbol_;
-        baseURI = baseURI_;
+    constructor() {
+        _name = "Quai Cross-Chain NFT";
+        _symbol = "QXC";
         _deployer = msg.sender;
-        _mint(_deployer, 0);
-        Ranges[0] = Range(0, 29);    // zone 0-0 // cyprus1                        
-        Ranges[1] = Range(30, 58); // zone 0-1 // cyprus2
-        Ranges[2] = Range(59, 87); // zone 0-2 // cyprus3
-        Ranges[3] = Range(88, 115); // zone 1-0 // paxos1
-        Ranges[4] = Range(116, 143); // zone 1-1 // paxos2
-        Ranges[5] = Range(144, 171); // zone 1-2 // paxos3
-        Ranges[6] = Range(172, 199); // zone 2-0 // hydra1
-        Ranges[7] = Range(200, 227); // zone 2-1 // hydra2
-        Ranges[8] = Range(228, 255); // zone 2-2 // hydra3
+        PrefixToLocation[0] = 0; // zone 0-0 // cyprus1
+        PrefixToLocation[1] = 1; // zone 0-1 // cyprus2
+        PrefixToLocation[2] = 2; // zone 0-2 // cyprus3
+        PrefixToLocation[16] = 3; // zone 1-0 // paxos1
+        PrefixToLocation[17] = 4; // zone 1-1 // paxos2
+        PrefixToLocation[18] = 5; // zone 1-2 // paxos3
+        PrefixToLocation[32] = 6; // zone 2-0 // hydra1
+        PrefixToLocation[33] = 7; // zone 2-1 // hydra2
+        PrefixToLocation[34] = 8; // zone 2-2 // hydra3
+        ValidPrefixes[0] = true;
+        ValidPrefixes[1] = true;
+        ValidPrefixes[2] = true;
+        ValidPrefixes[16] = true;
+        ValidPrefixes[17] = true;
+        ValidPrefixes[18] = true;
+        ValidPrefixes[32] = true;
+        ValidPrefixes[33] = true;
+        ValidPrefixes[34] = true;
+        uint deployerToken = getAddressLocation(_deployer); // Mint a different token for each chain
+        _mint(_deployer, deployerToken);
     }
 
     /**
@@ -209,8 +210,8 @@ contract QRC721 is IERC721Errors {
      * token will be the concatenation of the `baseURI` and the `tokenId`. Empty
      * by default, can be overridden in child contracts.
      */
-    function _baseURI() internal view  returns (string memory) {
-        return baseURI;
+    function _baseURI() internal pure returns (string memory) {
+        return "https://qu.ai/nft/";
     }
 
     /**
@@ -427,6 +428,7 @@ contract QRC721 is IERC721Errors {
     */
     function incomingTransfer(address to, uint256 tokenId) public {
         require(ApprovedAddresses[getAddressLocation(msg.sender)] == msg.sender, string(abi.encodePacked("Sender ", abi.encodePacked(msg.sender), " not approved")));
+        require(_owners[tokenId] == address(0), "Token already exists");
         if (to != address(0)) {
             unchecked {
                 _balances[to] += 1;
@@ -631,29 +633,52 @@ contract QRC721 is IERC721Errors {
     }
 
     /**
+    * This function allows the deployer to add an external address for the token contract on a different chain.
+    * Note that the deployer can only add one address per chain and this address cannot be changed afterwards.
+    * Be very careful when adding an address here.
+    */
+    function AddApprovedAddress(uint8 chain, address addr) public {
+        bool isInternal;
+        assembly {
+            isInternal := isaddrinternal(addr)
+        }
+        require(!isInternal, "Address is not external");
+        require(msg.sender == _deployer, "Sender is not deployer");
+        require(chain < 9, "Max 9 zones");
+        require(ApprovedAddresses[chain] == address(0), "The approved address for this zone already exists");
+        ApprovedAddresses[chain] = addr;
+    }
+
+    /**
     * This function allows the deployer to add external addresses for the token contract on different chains.
     * Note that the deployer can only add one address per chain and this address cannot be changed afterwards.
     * In comparison to AddApprovedAddress, this function allows the address(es) to be internal so that the same
     * approved list can be used for every instance of the contract on each chain.
     * Be very careful when adding addresses here.
     */
+
     function AddApprovedAddresses(uint8[] calldata chain, address[] calldata addr) external {
         require(msg.sender == _deployer, "Sender is not deployer");
         require(chain.length == addr.length, "chain and address arrays must be the same length");
         for(uint8 i = 0; i < chain.length; i++) {
+            bool isInternal;
+            address approvedAddr = addr[i];
+            assembly {
+                isInternal := isaddrinternal(approvedAddr)
+            }
+            require(!isInternal, "Address is not external");
             require(chain[i] < 9, "Max 9 zones");
             require(ApprovedAddresses[chain[i]] == address(0), "The approved address for this zone already exists");
-            ApprovedAddresses[chain[i]] = addr[i];
+            ApprovedAddresses[chain[i]] = approvedAddr;
         }
+
     }
 
     // This function uses the stored prefix list to determine an address's location based on its first byte.
     function getAddressLocation(address addr) public view returns (uint8) {
         uint8 prefix =  uint8(toBytes(addr)[0]);
-        for(uint8 i = 0; i < 9; i++) {
-            if (prefix >= Ranges[i].low && prefix <= Ranges[i].high) {
-                return i;
-            }
+        if (ValidPrefixes[prefix]) {
+            return PrefixToLocation[prefix];
         }
         revert("Invalid Location");
     }
