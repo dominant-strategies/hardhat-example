@@ -36,15 +36,9 @@ contract QRC20 {
     string private _name;
     string private _symbol;
     address private _deployer;
-    
-    // Address prefix range
-    struct Range {
-        uint8 low;
-        uint8 high;
-    }
 
-    // List of address prefix ranges (for checking which chain an address belongs to)
-    Range[13] public Ranges;
+    mapping(uint8 => uint8) public PrefixToLocation;
+    mapping(uint8 => bool) public ValidPrefixes;
 
     /**
      * @dev Emitted when `value` tokens are moved from one account (`from`) to
@@ -75,17 +69,26 @@ contract QRC20 {
         _name = name_;
         _symbol = symbol_;
         _deployer = msg.sender;
-        uint256 initialSupply = initialSupply_; // 1000 tokens
-        _mint(_deployer, initialSupply);
-        Ranges[0] = Range(0, 29);    // zone 0-0 // cyprus1                        
-        Ranges[1] = Range(30, 58); // zone 0-1 // cyprus2
-        Ranges[2] = Range(59, 87); // zone 0-2 // cyprus3
-        Ranges[3] = Range(88, 115); // zone 1-0 // paxos1
-        Ranges[4] = Range(116, 143); // zone 1-1 // paxos2
-        Ranges[5] = Range(144, 171); // zone 1-2 // paxos3
-        Ranges[6] = Range(172, 199); // zone 2-0 // hydra1
-        Ranges[7] = Range(200, 227); // zone 2-1 // hydra2
-        Ranges[8] = Range(228, 255); // zone 2-2 // hydra3
+        _mint(_deployer, initialSupply_);
+
+        PrefixToLocation[0] = 0; // zone 0-0 // cyprus1
+        PrefixToLocation[1] = 1; // zone 0-1 // cyprus2
+        PrefixToLocation[2] = 2; // zone 0-2 // cyprus3
+        PrefixToLocation[16] = 3; // zone 1-0 // paxos1
+        PrefixToLocation[17] = 4; // zone 1-1 // paxos2
+        PrefixToLocation[18] = 5; // zone 1-2 // paxos3
+        PrefixToLocation[32] = 6; // zone 2-0 // hydra1
+        PrefixToLocation[33] = 7; // zone 2-1 // hydra2
+        PrefixToLocation[34] = 8; // zone 2-2 // hydra3
+        ValidPrefixes[0] = true;
+        ValidPrefixes[1] = true;
+        ValidPrefixes[2] = true;
+        ValidPrefixes[16] = true;
+        ValidPrefixes[17] = true;
+        ValidPrefixes[18] = true;
+        ValidPrefixes[32] = true;
+        ValidPrefixes[33] = true;
+        ValidPrefixes[34] = true;
     }
 
     /**
@@ -116,7 +119,7 @@ contract QRC20 {
      * no way affects any of the arithmetic of the contract, including
      * {IERC20-balanceOf} and {IERC20-transfer}.
      */
-    function decimals() public pure  returns (uint8) {
+    function decimals() public view  returns (uint8) {
         return 18;
     }
 
@@ -484,6 +487,23 @@ contract QRC20 {
     ) internal  {}
 
     /**
+    * This function allows the deployer to add an external address for the token contract on a different chain.
+    * Note that the deployer can only add one address per chain and this address cannot be changed afterwards.
+    * Be very careful when adding an address here.
+    */
+    function AddApprovedAddress(uint8 chain, address addr) public {
+        bool isInternal;
+        assembly {
+            isInternal := isaddrinternal(addr)
+        }
+        require(!isInternal, "Address is not external");
+        require(msg.sender == _deployer, "Sender is not deployer");
+        require(chain < 9, "Max 9 zones");
+        require(ApprovedAddresses[chain] == address(0), "The approved address for this zone already exists");
+        ApprovedAddresses[chain] = addr;
+    }
+
+    /**
     * This function allows the deployer to add external addresses for the token contract on different chains.
     * Note that the deployer can only add one address per chain and this address cannot be changed afterwards.
     * In comparison to AddApprovedAddress, this function allows the address(es) to be internal so that the same
@@ -503,10 +523,8 @@ contract QRC20 {
     // This function uses the stored prefix list to determine an address's location based on its first byte.
     function getAddressLocation(address addr) public view returns (uint8) {
         uint8 prefix =  uint8(toBytes(addr)[0]);
-        for(uint8 i = 0; i < 9; i++) {
-            if (prefix >= Ranges[i].low && prefix <= Ranges[i].high) {
-                return i;
-            }
+        if (ValidPrefixes[prefix]) {
+            return PrefixToLocation[prefix];
         }
         revert("Invalid Location");
     }
