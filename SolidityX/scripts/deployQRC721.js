@@ -7,7 +7,7 @@ const tokenArgs = [process.env.QRC721_NAME, process.env.QRC721_SYMBOL, process.e
 
 async function deployQRC721() {
   // Config provider, wallet, and contract factory
-  const provider = new quais.JsonRpcProvider(hre.network.config.url, null, { usePathing: true })
+  const provider = new quais.JsonRpcProvider(hre.network.config.url, undefined, { usePathing: true })
   const wallet = new quais.Wallet(hre.network.config.accounts[0], provider)
   const QRC721 = new quais.ContractFactory(QRC721Json.abi, QRC721Json.bytecode, wallet)
 
