@@ -7,21 +7,13 @@ require('quai-hardhat-plugin')
 const dotenv = require('dotenv')
 dotenv.config({ path: '../.env' })
 
-const rpcUrl = process.env.RPC_URL
-const chainId = Number(process.env.CHAIN_ID)
-
 module.exports = {
   defaultNetwork: 'cyprus1',
   networks: {
     cyprus1: {
-      url: rpcUrl,
+      url: process.env.RPC_URL,
       accounts: [process.env.CYPRUS1_PK],
-      chainId: chainId,
-    },
-    cyprus2: {
-      url: rpcUrl,
-      accounts: [process.env.CYPRUS2_PK],
-      chainId: chainId,
+      chainId: Number(process.env.CHAIN_ID),
     },
   },
 
