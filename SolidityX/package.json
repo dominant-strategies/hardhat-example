@@ -3,7 +3,7 @@
     "dotenv": "^16.4.5",
     "hardhat": "^2.19.5",
     "quai-hardhat-plugin": "^1.0.3",
-    "quais": "^1.0.0-alpha.17"
+    "quais": "^1.0.0-alpha.21"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^5.0.0"
