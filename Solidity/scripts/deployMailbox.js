@@ -4,7 +4,10 @@ require('dotenv').config()
 
 async function deployMailbox() {
   // Config provider, wallet, and contract factory
-  const provider = new quais.JsonRpcProvider(hre.network.config.url)
+  const rpcConfig = {
+    usePathing: hre.network.config.url.includes('https'),
+  }
+  const provider = new quais.JsonRpcProvider(hre.network.config.url, undefined, rpcConfig)
   const wallet = new quais.Wallet(hre.network.config.accounts[0], provider)
   const Mailbox = new quais.ContractFactory(MailboxJson.abi, MailboxJson.bytecode, wallet)
 
