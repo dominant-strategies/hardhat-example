@@ -150,22 +150,21 @@ contract QRC20 {
         return true;
     }
     /**
-    * This function sends tokens to an address on another chain by creating an external transaction (ETX).
-
-    * This function uses opETX which constructs an external transaction and adds it to the block.
-
-    * The ETX will make its way over to the destination and automatically execute when the given base fee is correct.
-
-    * `to` must be an address on a different chain. The chain of a given address is determined by the first byte of the address.
-
-    * gasLimit, minerTip and basefee are for executing the transaction on the destination chain. Choose these carefully.
-
-    * The base fee and miner tip are in Wei and may not be the same as they are on your current chain.
-
-    * If the base fee or miner tip are too low, the ETX will wait in the destination chain until they are high enough to be added in a block.
-
-    * You must send a value with the function call equal to the following amount: (baseFee + minerTip) * gasLimit
-    */
+      * @dev This function sends tokens to an address on another chain by creating an external transaction (ETX). It uses opETX
+      * which constructs an external transaction and adds it to the block. The ETX will make its way over to the destination and
+      * automatically execute when the given base fee is correct. The `to` must be an address on a different chain. The chain of a
+      * given address is determined by the first byte of the address. gasLimit, minerTip and basefee are for executing the
+      * transaction on the destination chain. Choose these carefully. The base fee and miner tip are in Wei and may not be the
+      * same as they are on your current chain. If the base fee or miner tip are too low, the ETX will wait in the destination 
+      * chain until they are high enough to be added in a block. You must send a value with the function call equal to the
+      * following amount: (baseFee + minerTip) * gasLimit
+      *
+      * @param to The address of the recipient on the destination chain
+      * @param amount The amount of tokens to send
+      * @param gasLimit The amount of gas for execution
+      * @param minerTip The tip paid to the miner for execution
+      * @param baseFee The base fee
+      */
     function crossChainTransfer(address to, uint256 amount, uint256 gasLimit, uint256 minerTip, uint256 baseFee) public payable {
         bool isInternal;
         assembly {
@@ -487,28 +486,12 @@ contract QRC20 {
     ) internal  {}
 
     /**
-    * This function allows the deployer to add an external address for the token contract on a different chain.
+    * @dev This function allows the deployer to add external addresses for the token contract on different chains.
     * Note that the deployer can only add one address per chain and this address cannot be changed afterwards.
-    * Be very careful when adding an address here.
-    */
-    function AddApprovedAddress(uint8 chain, address addr) public {
-        bool isInternal;
-        assembly {
-            isInternal := isaddrinternal(addr)
-        }
-        require(!isInternal, "Address is not external");
-        require(msg.sender == _deployer, "Sender is not deployer");
-        require(chain < 9, "Max 9 zones");
-        require(ApprovedAddresses[chain] == address(0), "The approved address for this zone already exists");
-        ApprovedAddresses[chain] = addr;
-    }
-
-    /**
-    * This function allows the deployer to add external addresses for the token contract on different chains.
-    * Note that the deployer can only add one address per chain and this address cannot be changed afterwards.
-    * In comparison to AddApprovedAddress, this function allows the address(es) to be internal so that the same
-    * approved list can be used for every instance of the contract on each chain.
     * Be very careful when adding addresses here.
+    * 
+    * @param chain uint8 array of the chain indexes (i.e. cyprus 1 = 0, cyprus 2 = 1)
+    * @param addr array of the addresses to add as approved
     */
     function AddApprovedAddresses(uint8[] calldata chain, address[] calldata addr) external {
         require(msg.sender == _deployer, "Sender is not deployer");
@@ -520,7 +503,11 @@ contract QRC20 {
         }
     }
 
-    // This function uses the stored prefix list to determine an address's location based on its first byte.
+    /**
+     * @dev This function uses the stored prefix list to determine an address's location based on its first byte.
+     * 
+     * @param addr address to check location of
+     */
     function getAddressLocation(address addr) public view returns (uint8) {
         uint8 prefix =  uint8(toBytes(addr)[0]);
         if (ValidPrefixes[prefix]) {
@@ -529,10 +516,20 @@ contract QRC20 {
         revert("Invalid Location");
     }
 
+    /**
+     * @dev This function uses `abi.encodePacked` to encode the address into a bytes format.
+     * 
+     * @param a The address to be converted to bytes.
+     */
     function toBytes(address a) public pure returns (bytes memory) {
         return abi.encodePacked(a);
     }
 
+    /**
+     * @notice Converts an unsigned integer to its decimal string representation.
+     *
+     * @param _i The unsigned integer to convert to a string.
+     */
     function uint2str(uint _i) internal pure returns (string memory _uintAsString) {
         if (_i == 0) {
             return "0";

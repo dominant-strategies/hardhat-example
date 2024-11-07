@@ -98,12 +98,19 @@ contract QRC721 is IERC721Errors {
     // Token symbol
     string private _symbol;
 
+    // Address of the contract deployer
     address private _deployer;
+
+    // Base URI for token metadata
+    string public baseURI;
 
     // List of external token contracts that can send tokens to users on this chain
     address[12] public ApprovedAddresses;
     
+    // Mapping of address prefix to chain location
     mapping(uint8 => uint8) public PrefixToLocation;
+
+    // Mapping of valid address prefixes
     mapping(uint8 => bool) public ValidPrefixes;
 
     mapping(uint256 /*tokenId*/ => address) private _owners;
@@ -134,9 +141,10 @@ contract QRC721 is IERC721Errors {
     /**
      * @dev Initializes the contract by setting a `name` and a `symbol` to the token collection.
      */
-    constructor() {
-        _name = "Quai Cross-Chain NFT";
-        _symbol = "QXC";
+    constructor(string memory name_, string memory symbol_, string memory baseURI_) {
+        _name = name_;
+        _symbol = symbol_;
+        baseURI = baseURI_;
         _deployer = msg.sender;
         PrefixToLocation[0] = 0; // zone 0-0 // cyprus1
         PrefixToLocation[1] = 1; // zone 0-1 // cyprus2
@@ -211,7 +219,7 @@ contract QRC721 is IERC721Errors {
      * by default, can be overridden in child contracts.
      */
     function _baseURI() internal pure returns (string memory) {
-        return "https://qu.ai/nft/";
+        return _baseURI;
     }
 
     /**
@@ -633,28 +641,12 @@ contract QRC721 is IERC721Errors {
     }
 
     /**
-    * This function allows the deployer to add an external address for the token contract on a different chain.
-    * Note that the deployer can only add one address per chain and this address cannot be changed afterwards.
-    * Be very careful when adding an address here.
-    */
-    function AddApprovedAddress(uint8 chain, address addr) public {
-        bool isInternal;
-        assembly {
-            isInternal := isaddrinternal(addr)
-        }
-        require(!isInternal, "Address is not external");
-        require(msg.sender == _deployer, "Sender is not deployer");
-        require(chain < 9, "Max 9 zones");
-        require(ApprovedAddresses[chain] == address(0), "The approved address for this zone already exists");
-        ApprovedAddresses[chain] = addr;
-    }
-
-    /**
-    * This function allows the deployer to add external addresses for the token contract on different chains.
-    * Note that the deployer can only add one address per chain and this address cannot be changed afterwards.
-    * In comparison to AddApprovedAddress, this function allows the address(es) to be internal so that the same
-    * approved list can be used for every instance of the contract on each chain.
+    * @dev This function allows the deployer to add external addresses for the token contract on different chains.
+    * Note that the deployer can only add one address per shard and this address cannot be changed afterwards.
     * Be very careful when adding addresses here.
+    * 
+    * @param chain uint8 array of the chain indexes (i.e. cyprus 1 = 0, cyprus 2 = 1)
+    * @param addr array of the addresses to add as approved
     */
 
     function AddApprovedAddresses(uint8[] calldata chain, address[] calldata addr) external {
@@ -674,7 +666,11 @@ contract QRC721 is IERC721Errors {
 
     }
 
-    // This function uses the stored prefix list to determine an address's location based on its first byte.
+    /**
+     * @dev This function uses the stored prefix list to determine an address's location based on its first byte.
+     * 
+     * @param addr address to check location of
+     */
     function getAddressLocation(address addr) public view returns (uint8) {
         uint8 prefix =  uint8(toBytes(addr)[0]);
         if (ValidPrefixes[prefix]) {
@@ -683,11 +679,19 @@ contract QRC721 is IERC721Errors {
         revert("Invalid Location");
     }
 
+     /**
+     * @dev This function uses `abi.encodePacked` to encode the address into a bytes format.
+     * 
+     * @param a The address to be converted to bytes.
+     */
     function toBytes(address a) public pure returns (bytes memory) {
         return abi.encodePacked(a);
     }
+    
     /**
-     * @dev Converts a `uint256` to its ASCII `string` decimal representation.
+     * @notice Converts an unsigned integer to its decimal string representation.
+     *
+     * @param value The unsigned integer to convert to a string.
      */
     function toString(uint256 value) internal pure returns (string memory) {
         unchecked {
@@ -713,6 +717,8 @@ contract QRC721 is IERC721Errors {
     /**
      * @dev Return the log in base 10 of a positive value rounded towards zero.
      * Returns 0 if given 0.
+     * 
+     * @param value The unsigned integer to convert to a string.
      */
     function log10(uint256 value) internal pure returns (uint256) {
         uint256 result = 0;
