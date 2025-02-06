@@ -1,5 +1,6 @@
 const quais = require('quais')
-const ERC20Json = require('../artifacts/contracts/ERC20.sol/TestERC20.json')
+const ERC20Json = require('../artifacts/contracts/ERC20.sol/ERC20.json')
+const { deployMetadata } = require("hardhat");
 require('dotenv').config()
 
 // Pull contract arguments from .env
@@ -9,7 +10,8 @@ async function deployERC20() {
   // Config provider, wallet, and contract factory
   const provider = new quais.JsonRpcProvider(hre.network.config.url, undefined, { usePathing: true })
   const wallet = new quais.Wallet(hre.network.config.accounts[0], provider)
-  const ERC20 = new quais.ContractFactory(ERC20Json.abi, ERC20Json.bytecode, wallet)
+  const ipfsHash = await deployMetadata.pushMetadataToIPFS("ERC20")
+  const ERC20 = new quais.ContractFactory(ERC20Json.abi, ERC20Json.bytecode, wallet, ipfsHash)
 
   // Broadcast deploy transaction
   const erc20 = await ERC20.deploy(...tokenArgs)

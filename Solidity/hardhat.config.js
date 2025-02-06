@@ -3,6 +3,9 @@
  */
 
 require('@nomicfoundation/hardhat-toolbox')
+require('@quai/quais-upgrades');
+require("@quai/hardhat-deploy-metadata");
+
 const dotenv = require('dotenv')
 dotenv.config({ path: '../.env' })
 
@@ -14,17 +17,44 @@ module.exports = {
       accounts: [process.env.CYPRUS1_PK],
       chainId: Number(process.env.CHAIN_ID),
     },
+    cyprus1_fullpath: {
+      url: "https://orchard.rpc.quai.network/cyprus1",
+      accounts: [process.env.CYPRUS1_PK],
+      chainId: Number(process.env.CHAIN_ID),
+    },
   },
 
   solidity: {
-    version: '0.8.20',
-    settings: {
-      optimizer: {
-        enabled: true,
-        runs: 1000,
+    compilers: [
+      {
+      version: '0.8.17',
+      settings: {
+        optimizer: {
+          enabled: true,
+          runs: 1000,
+        },
+        metadata: {
+          bytecodeHash: 'ipfs',
+          useLiteralContent: true, // Include the source code in the metadata
+        },
+        evmVersion: 'london',
       },
-      evmVersion: 'london',
     },
+    {
+      version: '0.8.20',
+      settings: {
+        optimizer: {
+          enabled: true,
+          runs: 1000,
+        },
+        metadata: {
+          bytecodeHash: 'ipfs',
+          useLiteralContent: true, // Include the source code in the metadata
+        },
+        evmVersion: 'london',
+      },
+    },
+  ]
   },
 
   // etherscan: {
